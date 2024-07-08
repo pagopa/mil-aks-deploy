@@ -1,42 +1,56 @@
 #!/bin/bash
 
-set -e  # Termina lo script se un comando fallisce
+set -e  # Exit the script if any command fails
 
-# Funzione per gestire gli errori
+# Function to handle errors
 handle_error() {
-    echo "❌ Errore: $1" >&2
+    echo "❌ Error: $1" >&2
     exit 1
 }
 
-# Verifica dei parametri
+# Parameter verification
 VALUES_FILE_NAME=$1
 NAMESPACE=$2
 APP_NAME=$3
+CLUSTER_NAME=$4  # New parameter for cluster name
 
-if [ -z "$VALUES_FILE_NAME" ] || [ -z "$NAMESPACE" ] || [ -z "$APP_NAME" ]; then
-    handle_error "Tutti i parametri sono richiesti: VALUES_FILE_NAME NAMESPACE APP_NAME"
+if [ -z "$VALUES_FILE_NAME" ] || [ -z "$NAMESPACE" ] || [ -z "$APP_NAME" ] || [ -z "$CLUSTER_NAME" ]; then
+    handle_error "All parameters are required: VALUES_FILE_NAME NAMESPACE APP_NAME CLUSTER_NAME"
 fi
 
-# Verifica che helm sia installato
+# Check if kubectl is installed
+if ! command -v kubectl &> /dev/null; then
+    handle_error "kubectl is not installed. Please install it and try again."
+fi
+
+# Check if helm is installed
 if ! command -v helm &> /dev/null; then
-    handle_error "Helm non è installato. Per favore, installalo e riprova."
+    handle_error "Helm is not installed. Please install it and try again."
 fi
 
-echo "✂️ Eliminazione della cartella charts"
-rm -rf charts || handle_error "Impossibile eliminare la cartella charts"
+echo "🔄 Switching Kubernetes context to cluster $CLUSTER_NAME"
+if ! kubectl config use-context "$CLUSTER_NAME"; then
+    handle_error "Unable to switch context to $CLUSTER_NAME. Make sure the cluster exists in your kubeconfig."
+fi
 
-echo "🚀 Inizio dell'installazione Release"
+echo "✂️ Deleting charts folder"
+rm -rf charts || handle_error "Unable to delete charts folder"
 
-# Esegui il comando helm upgrade/install e cattura l'output e il codice di uscita
-output=$(helm upgrade --namespace "$NAMESPACE" \
+echo "🔨 Starting Helm Template"
+helm dep build && helm template . -f "$VALUES_FILE_NAME"  --debug
+
+
+echo "🚀 Launch helm deploy"
+# Execute helm upgrade/install command and capture output and exit code
+helm upgrade --namespace "$NAMESPACE" \
     --install --values "$VALUES_FILE_NAME" \
-    --wait --timeout 3m0s "$APP_NAME" . 2>&1)
+    --wait --timeout 3m0s "$APP_NAME" .
+
 exit_code=$?
 
-# Controlla il risultato del comando
+# Check the command result
 if [ $exit_code -ne 0 ]; then
-    handle_error "Fallimento nell'aggiornamento/installazione del chart Helm: $output"
+    handle_error "Failed to upgrade/install Helm chart"
 else
-    echo "✅ Installazione Release completata con successo"
-    echo "$output"
+    echo "✅ Release installation completed successfully"
 fi
