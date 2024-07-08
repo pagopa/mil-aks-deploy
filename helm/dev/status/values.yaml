@@ -1,0 +1,105 @@
+microservice-chart:
+  namespace: "mil"
+
+#
+# Deploy
+#
+  deployment:
+    create: true
+    # forceRedeploy: true
+
+  image:
+    repository: ghcr.io/pagopa/devops-app-status
+    tag: v1.6.1
+    pullPolicy: Always
+
+  envSecret:
+    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
+
+  livenessProbe:
+    httpGet:
+      path: /status
+      port: 8000
+    initialDelaySeconds: 10
+    failureThreshold: 6
+    periodSeconds: 10
+
+  readinessProbe:
+    httpGet:
+      path: /status
+      port: 8000
+    initialDelaySeconds: 10
+    failureThreshold: 6
+    periodSeconds: 10
+
+#
+# Network
+#
+  service:
+    create: true
+    type: ClusterIP
+    ports:
+      - 8000
+
+  ingress:
+    create: true
+    host: "mil.weu.internal.dev.cstar.pagopa.it"
+    path: /status(/|$)(.*)
+    rewriteTarget: /$2
+    servicePort: 8000
+    # proxyBodySize: 2m
+    annotations: {
+      nginx.ingress.kubernetes.io/satisfy: "any"
+    }
+
+  serviceAccount:
+    create: false
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    allowPrivilegeEscalation: false
+
+  resources:
+    requests:
+      memory: "128Mi"
+      cpu: "40m"
+    limits:
+      memory: "128Mi"
+      cpu: "40m"
+
+  autoscaling:
+    enable: false
+    minReplica: 1
+    maxReplica: 3
+    pollingInterval: 30 # seconds
+    cooldownPeriod: 300 # seconds
+    triggers:
+      - type: cpu
+        metadata:
+          type: Utilization
+          value: "60"
+
+  keyvault:
+    name: "cstar-d-weu-mil-kv"
+    tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
+
+  tmpVolumeMount:
+    create: true
+    mounts:
+      - name: tmp
+        mountPath: /tmp
+      - name: logs
+        mountPath: /app/logs
+
+  # nodeSelector: {}
+
+  # tolerations: []
+
+  # affinity: {}

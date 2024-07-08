@@ -12,7 +12,9 @@ rules:
   empty-values: disable
   float-values: disable
   hyphens: enable
-  indentation: enable
+  indentation:
+    ignore: |
+      **/Chart.yaml
   key-duplicates: enable
   key-ordering: disable
   line-length: disable
