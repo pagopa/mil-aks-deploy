@@ -2,6 +2,13 @@
 
 set -e  # Exit the script if any command fails
 
+### How to use
+#
+# deploy.sh <values yaml file> <namespace > <cluster k8s name> <app name or release name>
+# deploy.sh values.yaml mil cstar-d-weu-dev01-aks status
+#
+#
+
 # Function to handle errors
 handle_error() {
     echo "❌ Error: $1" >&2
@@ -11,8 +18,8 @@ handle_error() {
 # Parameter verification
 VALUES_FILE_NAME=$1
 NAMESPACE=$2
-APP_NAME=$3
-CLUSTER_NAME=$4  # New parameter for cluster name
+CLUSTER_NAME=$3  # New parameter for cluster name
+APP_NAME=$4
 
 if [ -z "$VALUES_FILE_NAME" ] || [ -z "$NAMESPACE" ] || [ -z "$APP_NAME" ] || [ -z "$CLUSTER_NAME" ]; then
     handle_error "All parameters are required: VALUES_FILE_NAME NAMESPACE APP_NAME CLUSTER_NAME"
