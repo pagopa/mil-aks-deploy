@@ -7,18 +7,19 @@ microservice-chart:
 #
   deployment:
     create: true
-    # forceRedeploy: true
+    forceRedeploy: true
 
   image:
-    repository: ghcr.io/pagopa/devops-app-status
-    tag: v1.6.1
+    repository: ghcr.io/pagopa/emd-message-core
+    tag: snapshot-MMC-12-implementation-message-core
     pullPolicy: Always
 
   envSecret:
+    MONGODB_URI: mongodb-connection-string
     MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
     KAFKA_MESSAGE_CORE_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-consumer-jaas-config-emd
     KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
-  
+
   envConfig:
     MONGODB_DBNAME: mil
     APPLICATIONINSIGHTS_ROLE_NAME: "emdmessagecore"
@@ -34,10 +35,10 @@ microservice-chart:
       KAFKA_ERRORS_BROKER: kafka_broker
       KAFKA_TOPIC_MESSAGE_CORE: emd_courtesy_message_topic
       KAFKA_MESSAGE_CORE_GROUP_IN: emd-courtesy-message-consumer-group
-  
+
   livenessProbe:
     httpGet:
-      path: /actuator/health/liveness
+      path: /emd/message-core
       port: 8080
     initialDelaySeconds: 10
     failureThreshold: 6
@@ -45,7 +46,7 @@ microservice-chart:
 
   readinessProbe:
     httpGet:
-      path: /actuator/health/readiness
+      path: /emd/message-core
       port: 8080
     initialDelaySeconds: 10
     failureThreshold: 6
@@ -90,11 +91,11 @@ microservice-chart:
 
   resources:
     requests:
-      memory: "128Mi"
-      cpu: "40m"
+      memory: "256Mi"
+      cpu: "500m"
     limits:
-      memory: "128Mi"
-      cpu: "40m"
+      memory: "256Mi"
+      cpu: "500m"
 
   autoscaling:
     enable: false
@@ -125,7 +126,7 @@ microservice-chart:
   # tolerations: []
 
   # affinity: {}
-  
+
   externalConfigMapFiles:
     create: true
     configMaps:
