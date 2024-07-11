@@ -37,19 +37,21 @@ microservice-chart:
       KAFKA_MESSAGE_CORE_GROUP_IN: emd-courtesy-message-consumer-group
 
   livenessProbe:
+    handlerType: httpGet
     httpGet:
-      path: /emd/message-core
+      path: /actuator/health/liveness
       port: 8080
-    initialDelaySeconds: 10
-    failureThreshold: 6
+    initialDelaySeconds: 120
+    failureThreshold: 15
     periodSeconds: 10
 
   readinessProbe:
+    handlerType: httpGet
     httpGet:
-      path: /emd/message-core
+      path: /actuator/health/readiness
       port: 8080
-    initialDelaySeconds: 10
-    failureThreshold: 6
+    initialDelaySeconds: 35
+    failureThreshold: 15
     periodSeconds: 10
 
 #
