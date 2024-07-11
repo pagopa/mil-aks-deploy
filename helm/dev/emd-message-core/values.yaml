@@ -30,11 +30,14 @@ microservice-chart:
   externalConfigMapValues:
     mil-common-poc:
       TZ: TZ
+      JAVA_TOOL_OPTIONS: JAVA_TOOL_OPTIONS
     emd-eventhub:
       KAFKA_BROKER: kafka_broker
       KAFKA_ERRORS_BROKER: kafka_broker
       KAFKA_TOPIC_MESSAGE_CORE: emd_courtesy_message_topic
       KAFKA_MESSAGE_CORE_GROUP_IN: emd-courtesy-message-consumer-group
+
+
 
   livenessProbe:
     handlerType: httpGet
@@ -93,16 +96,16 @@ microservice-chart:
 
   resources:
     requests:
-      memory: "256Mi"
+      memory: "512Mi"
       cpu: "500m"
     limits:
-      memory: "256Mi"
+      memory: "512Mi"
       cpu: "500m"
 
   autoscaling:
-    enable: false
+    enable: true
     minReplica: 1
-    maxReplica: 3
+    maxReplica: 1
     pollingInterval: 30 # seconds
     cooldownPeriod: 300 # seconds
     triggers:
