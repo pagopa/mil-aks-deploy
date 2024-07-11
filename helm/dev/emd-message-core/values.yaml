@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-message-core
-    tag: snapshot-MMC-12-implementation-message-core
+    tag: v1.1.0
     pullPolicy: Always
 
   envSecret:
