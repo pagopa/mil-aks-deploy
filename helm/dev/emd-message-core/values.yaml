@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-message-core
-    tag: v1.1.6
+    tag: snapshot-added-tpp-secret
     pullPolicy: Always
 
   envSecret:
@@ -19,6 +19,9 @@ microservice-chart:
     MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
     KAFKA_MESSAGE_CORE_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-consumer-jaas-config-emd
     KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    HYPE_TENANT: hype-tenant-info
+    HYPE_CLIENT: hype-client-identifier
+    HYPE_KEY: hype-client-key
 
   envConfig:
     MONGODB_DBNAME: mil
