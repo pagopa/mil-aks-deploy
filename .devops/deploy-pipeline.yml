@@ -1,0 +1,69 @@
+parameters:
+  - name: 'ENV'
+    displayName: 'Environment to deploy'
+    type: string
+    values:
+      - dev
+      - uat
+      - prod
+  - name: 'APP_EMD_MESSAGE_CORE'
+    displayName: 'Deploy EMD message core app'
+    type: boolean
+    values:
+      - False
+      - True
+  - name: 'APP_STATUS'
+    displayName: 'Deploy Status app'
+    type: boolean
+    values:
+      - False
+      - True
+
+
+resources:
+  repositories:
+    - repository: helm
+      type: github
+      name: pagopa/azure-pipeline-templates
+      ref: refs/heads/wrapper-helm-deploy
+      endpoint: 'io-azure-devops-github-ro'
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+
+  - stage: 'Deploy_for_selected env'
+    displayName: 'Deploy on selected environment'
+    condition: succeeded()
+    jobs:
+      - deployment: "deploy"
+        environment: ${{ parameters.ENV }}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  displayName: "Checkout"
+                - ${{ each parameter in parameters }}:
+                  - ${{ if and( startsWith( ${{parameter.Key}}, 'APP_') , eq(${{parameter.Value}}, True)) }}:
+                    - task: Bash@3
+                      displayName: 'Set app variable'
+                      inputs:
+                        targetType: 'inline'
+                        script: echo "##vso[task.setvariable variable=appname] lower(replace(replace(${{parameter.Key}}, 'APP_', ''), '_', '-'))"
+                    - task: Bash@3
+                      displayName: 'Set namespace variables'
+                      inputs:
+                        targetType: 'inline'
+                        script: echo "##vso[task.setvariable variable=namespace]$(cat $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/$(appname)"
+                    - template: azure-templates/helm-microservice-chart-deploy-tree.yml
+                      parameters:
+                        DO_DEPLOY: true
+                        ENV: ${{ parameters.ENV }}
+                        KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
+                        NAMESPACE: $(namespace)
+                        APP_NAME: $(appname)
+                        DEPLOY_VERSION: $(Build.SourceVersion)
+
+
