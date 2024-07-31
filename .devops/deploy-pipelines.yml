@@ -31,8 +31,8 @@ stages:
     displayName: 'Deploy on selected environment'
     condition: succeeded()
     jobs:
-      - deployment: "deploy_${{ parameters.APP_NAME }}_${{ parameters.ENV }}"
-        displayName: "Deploy ${{ parameters.APP_NAME }} on ${{ parameters.ENV }}"
+      - deployment: "deploy_${{ replace(parameters.APP_NAME, '-', '_') }}_${{ parameters.ENV }}"
+        displayName: "Deploy app ${{ parameters.APP_NAME }} on ${{ parameters.ENV }}"
         environment: ${{ parameters.ENV }}
         strategy:
           runOnce:
