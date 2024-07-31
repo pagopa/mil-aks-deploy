@@ -47,7 +47,7 @@ stages:
                     DO_DEPLOY: true
                     ENV: ${{ parameters.ENV }}
                     KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
-                    NAMESPACE: ${{ variables.namespaces.parameters.APP_NAME }}
+                    NAMESPACE: ${{ variables.parameters.APP_NAME }}
                     APP_NAME: ${{ parameters.APP_NAME }}
                     DEPLOY_VERSION: $(Build.SourceVersion)
 
