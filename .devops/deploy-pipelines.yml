@@ -43,6 +43,7 @@ stages:
               steps:
                 - checkout: self
                   displayName: "Checkout"
+                  path: "repo"
                 - task: Bash@3
                   displayName: 'check dir'
                   inputs:
