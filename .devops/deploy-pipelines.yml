@@ -57,7 +57,7 @@ stages:
                       inputs:
                         targetType: 'inline'
                         script: echo "##vso[task.setvariable variable=namespace]$(cat $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/$(appname)"
-                    - template: azure-templates/helm-microservice-chart-deploy-tree/template.yaml@helm
+                    - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
                       parameters:
                         DO_DEPLOY: true
                         ENV: ${{ parameters.ENV }}
