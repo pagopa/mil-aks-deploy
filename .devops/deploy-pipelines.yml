@@ -48,9 +48,8 @@ stages:
                   inputs:
                     targetType: 'inline'
                     script: |
-                      echo "path name: $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
                       echo "##vso[task.setvariable variable=namespace]$(yq '.microservice-chart.namespace' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
-                      echo "$(yq '.microservice-chart.namespace' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+                      echo "##vso[task.setvariable variable=deployversion]$(yq '.microservice-chart.image.tag' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
                 - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
                   parameters:
                     DO_DEPLOY: true
@@ -58,6 +57,6 @@ stages:
                     KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
                     NAMESPACE: $(namespace)
                     APP_NAME: ${{ parameters.APP_NAME }}
-                    DEPLOY_VERSION: $(Build.SourceVersion)
+                    DEPLOY_VERSION: $(deployversion)
 
 
