@@ -49,8 +49,7 @@ stages:
                     targetType: 'inline'
                     script: |
                       echo "path name: $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
-                      echo "##vso[task.setvariable variable=namespace]$(yq read $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml 'namespace' )"
-                      echo "namespace: $(namespace)"
+                      echo "##vso[task.setvariable variable=namespace]$(yq '.namespace' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
                 - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
                   parameters:
                     DO_DEPLOY: true
