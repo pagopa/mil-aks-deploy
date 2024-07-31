@@ -6,18 +6,12 @@ parameters:
       - dev
       - uat
       - prod
-  - name: 'APP_EMD_MESSAGE_CORE'
-    displayName: 'Deploy EMD message core app'
-    type: boolean
+  - name: 'APP_NAME'
+    displayName: 'Application to deploy'
+    type: string
     values:
-      - False
-      - True
-  - name: 'APP_STATUS'
-    displayName: 'Deploy Status app'
-    type: boolean
-    values:
-      - False
-      - True
+      - emd-message-core
+      - status
 
 variables:
   - template: .namespace.yml
@@ -48,27 +42,20 @@ stages:
               steps:
                 - checkout: self
                   displayName: "Checkout"
-                - ${{ each parameter in parameters }}:
-                  - ${{ if and( startsWith( parameter.Key, 'APP_') , eq(parameter.Value, True)) }}:
-                    - task: Bash@3
-                      displayName: 'Set app variable'
-                      inputs:
-                        targetType: 'inline'
-                        script: echo "##vso[task.setvariable variable=appname]${{ lower(replace(replace(parameter.Key, 'APP_', ''), '_', '-')) }}"
-#                    - task: Bash@3
-#                      displayName: 'Set namespace variables'
-#                      inputs:
-#                        targetType: 'inline'
-#                        script: |
-#                          echo "path name: $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/$(appname)"
-#                          echo "##vso[task.setvariable variable=namespace]$(cat $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/$(appname)/.namespace"
-                    - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
-                      parameters:
-                        DO_DEPLOY: true
-                        ENV: ${{ parameters.ENV }}
-                        KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
-                        NAMESPACE: ${{ variables.namespaces.$(appname) }}
-                        APP_NAME: $(appname)
-                        DEPLOY_VERSION: $(Build.SourceVersion)
+                - task: Bash@3
+                  displayName: 'Set namespace variables'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      echo "path name: $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
+                      echo "##vso[task.setvariable variable=namespace]$(cat $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/.namespace"
+                - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
+                  parameters:
+                    DO_DEPLOY: true
+                    ENV: ${{ parameters.ENV }}
+                    KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
+                    NAMESPACE: ${{ variables.namespaces.${{parameters.APP_NAME}} }}
+                    APP_NAME: $(appname)
+                    DEPLOY_VERSION: $(Build.SourceVersion)
 
 
