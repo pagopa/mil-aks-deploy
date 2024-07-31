@@ -10,8 +10,8 @@ parameters:
     displayName: 'Application to deploy'
     type: string
     values:
-      - emd-message-core
       - status
+      - emd-message-core
 
 variables:
   - template: .namespace.yml
