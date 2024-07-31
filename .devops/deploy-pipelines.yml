@@ -44,13 +44,6 @@ stages:
                 - checkout: self
                   displayName: "Checkout"
                 - task: Bash@3
-                  displayName: 'check dir'
-                  inputs:
-                    targetType: 'inline'
-                    script: |
-                      echo "$(pwd)"
-                      echo "$(ls -la)"
-                - task: Bash@3
                   displayName: 'Set namespace variables'
                   inputs:
                     targetType: 'inline'
