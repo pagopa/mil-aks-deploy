@@ -13,9 +13,6 @@ parameters:
       - status
       - emd-message-core
 
-variables:
-  - template: .namespace.yml
-
 
 resources:
   repositories:
