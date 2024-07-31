@@ -46,7 +46,7 @@ stages:
                 - checkout: self
                   displayName: "Checkout"
                 - ${{ each parameter in parameters }}:
-                  - ${{ if and( startsWith( ${{parameter.Key}}, 'APP_') , eq(${{parameter.Value}}, True)) }}:
+                  - ${{ if and( startsWith( parameter.Key, 'APP_') , eq(${{parameter.Value}}, True)) }}:
                     - task: Bash@3
                       displayName: 'Set app variable'
                       inputs:
