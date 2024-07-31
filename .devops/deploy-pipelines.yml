@@ -33,7 +33,7 @@ pool:
 
 stages:
 
-  - stage: 'Deploy_for_selected env'
+  - stage: 'Deploy_for_selected_env'
     displayName: 'Deploy on selected environment'
     condition: succeeded()
     jobs:
