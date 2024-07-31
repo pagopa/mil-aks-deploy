@@ -34,8 +34,8 @@ stages:
     displayName: 'Deploy on selected environment'
     condition: succeeded()
     jobs:
-      - deployment: "deploy_${{ variables.parameters.APP_NAME }}_${{ parameters.ENV }}"
-        displayName: "Deploy ${{ variables.parameters.APP_NAME }} on ${{ parameters.ENV }}"
+      - deployment: "deploy_${{ parameters.APP_NAME }}_${{ parameters.ENV }}"
+        displayName: "Deploy ${{ parameters.APP_NAME }} on ${{ parameters.ENV }}"
         environment: ${{ parameters.ENV }}
         strategy:
           runOnce:
@@ -43,12 +43,19 @@ stages:
               steps:
                 - checkout: self
                   displayName: "Checkout"
+                - task: Bash@3
+                  displayName: 'Set namespace variables'
+                  inputs:
+                    targetType: 'inline'
+                    script: |
+                      echo "path name: $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.ENV}}"
+                      echo "##vso[task.setvariable variable=namespace]$(yq read $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.ENV}}/values.yaml 'namespace' )"
                 - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
                   parameters:
                     DO_DEPLOY: true
                     ENV: ${{ parameters.ENV }}
                     KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
-                    NAMESPACE: ${{ variables.parameters.APP_NAME }}
+                    NAMESPACE: $(namespace)
                     APP_NAME: ${{ parameters.APP_NAME }}
                     DEPLOY_VERSION: $(Build.SourceVersion)
 
