@@ -19,7 +19,7 @@ resources:
     - repository: templates
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/heads/fix-repo-reference
+      ref: refs/tags/v6.6.0
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
