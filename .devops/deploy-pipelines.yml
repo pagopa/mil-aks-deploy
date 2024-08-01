@@ -1,0 +1,36 @@
+parameters:
+  - name: 'ENV'
+    displayName: 'Environment to deploy'
+    type: string
+    values:
+      - dev
+      - uat
+      - prod
+  - name: 'APP_NAME'
+    displayName: 'Application to deploy'
+    type: string
+    values:
+      - status
+      - emd-message-core
+
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: pagopa/azure-pipeline-templates
+      ref: refs/tags/v6.4.0
+      endpoint: 'io-azure-devops-github-ro'
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - template: templates/helm-microservice-chart-deploy-tree/template.yaml@templates
+    parameters:
+      DO_DEPLOY: true
+      ENV: ${{ parameters.ENV }}
+      KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
+      APP_NAME: ${{ parameters.APP_NAME }}
+
+

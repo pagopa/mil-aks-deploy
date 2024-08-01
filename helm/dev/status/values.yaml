@@ -6,11 +6,11 @@ microservice-chart:
 #
   deployment:
     create: true
-    # forceRedeploy: true
+#    forceRedeploy: true
 
   image:
     repository: ghcr.io/pagopa/devops-app-status
-    tag: v1.6.1
+    tag: v1.6.0
     pullPolicy: Always
 
   envSecret:
