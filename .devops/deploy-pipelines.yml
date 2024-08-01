@@ -26,34 +26,13 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-
-  - stage: 'Deploy_for_selected_env'
-    displayName: 'Deploy on selected environment'
-    condition: succeeded()
-    jobs:
-      - deployment: "deploy_${{ replace(parameters.APP_NAME, '-', '_') }}_${{ parameters.ENV }}"
-        displayName: "Deploy app ${{ parameters.APP_NAME }} on ${{ parameters.ENV }}"
-        environment: ${{ parameters.ENV }}
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: self
-                  displayName: "Checkout"
-                - task: Bash@3
-                  displayName: 'Set namespace variables'
-                  inputs:
-                    targetType: 'inline'
-                    script: |
-                      echo "##vso[task.setvariable variable=namespace]$(yq '.microservice-chart.namespace' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
-                      echo "##vso[task.setvariable variable=deployversion]$(yq '.microservice-chart.image.tag' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
-                - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
-                  parameters:
-                    DO_DEPLOY: true
-                    ENV: ${{ parameters.ENV }}
-                    KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
-                    NAMESPACE: $(namespace)
-                    APP_NAME: ${{ parameters.APP_NAME }}
-                    DEPLOY_VERSION: $(deployversion)
+  - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
+    parameters:
+      DO_DEPLOY: true
+      ENV: ${{ parameters.ENV }}
+      KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
+      APP_NAME: ${{ parameters.APP_NAME }}
+#      NAMESPACE: $(namespace)
+#      DEPLOY_VERSION: $(deployversion)
 
 
