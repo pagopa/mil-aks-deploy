@@ -16,23 +16,21 @@ parameters:
 
 resources:
   repositories:
-    - repository: helm
+    - repository: templates
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/heads/wrapper-helm-deploy
+      ref: refs/tags/v6.4.0
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
   vmImage: ubuntu-latest
 
 stages:
-  - template: templates/helm-microservice-chart-deploy-tree/template.yaml@helm
+  - template: templates/helm-microservice-chart-deploy-tree/template.yaml@templates
     parameters:
       DO_DEPLOY: true
       ENV: ${{ parameters.ENV }}
       KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
       APP_NAME: ${{ parameters.APP_NAME }}
-#      NAMESPACE: $(namespace)
-#      DEPLOY_VERSION: $(deployversion)
 
 
