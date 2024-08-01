@@ -19,7 +19,7 @@ resources:
     - repository: templates
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v6.4.0
+      ref: refs/tags/v6.5.0
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
@@ -32,5 +32,7 @@ stages:
       ENV: ${{ parameters.ENV }}
       KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
       APP_NAME: ${{ parameters.APP_NAME }}
+      CHART_PATH: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
+      VALUE_FILE: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml"
 
 
