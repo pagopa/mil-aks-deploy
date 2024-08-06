@@ -24,7 +24,7 @@ variables:
 
   ${{ if eq(parameters.ENV, 'dev') }}:
     kubernetesServiceConnection: '$(DEV_KUBERNETES_SERVICE_CONN)'
-    selfHostedAgentPool: 'ubuntu-latest'
+    selfHostedAgentPool: '$(DEV_AGENT_POOL)'
 
 resources:
   repositories:
@@ -35,7 +35,7 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
-  vmImage: $(selfHostedAgentPool)
+  name: $(selfHostedAgentPool)
 
 stages:
   - template: templates/helm-microservice-chart-deploy-tree/template.yaml@templates
