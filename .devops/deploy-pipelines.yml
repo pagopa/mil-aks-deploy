@@ -13,6 +13,19 @@ parameters:
       - status
       - emd-message-core
 
+variables:
+  ${{ if eq(parameters.ENV, 'uat') }}:
+    kubernetesServiceConnection: '$(UAT_KUBERNETES_SERVICE_CONN)'
+    selfHostedAgentPool: '$(UAT_AGENT_POOL)'
+
+  ${{ if eq(parameters.ENV, 'prod') }}:
+    kubernetesServiceConnection: '$(PROD_KUBERNETES_SERVICE_CONN)'
+    selfHostedAgentPool: '$(PROD_AGENT_POOL)'
+
+  ${{ if eq(parameters.ENV, 'dev') }}:
+    kubernetesServiceConnection: '$(DEV_KUBERNETES_SERVICE_CONN)'
+    selfHostedAgentPool: '$(DEV_AGENT_POOL)'
+
 resources:
   repositories:
     - repository: templates
@@ -22,14 +35,14 @@ resources:
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
-  vmImage: ubuntu-latest
+  name: $(selfHostedAgentPool)
 
 stages:
   - template: templates/helm-microservice-chart-deploy-tree/template.yaml@templates
     parameters:
       DO_DEPLOY: true
       ENV: ${{ parameters.ENV }}
-      KUBERNETES_SERVICE_CONN: $(DEV_KUBERNETES_SERVICE_CONN)
+      KUBERNETES_SERVICE_CONN: ${{ variables.kubernetesServiceConnection }}
       APP_NAME: ${{ parameters.APP_NAME }}
       CHART_PATH: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
       VALUE_FILE: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml"
