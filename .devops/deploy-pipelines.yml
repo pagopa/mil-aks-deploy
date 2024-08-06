@@ -16,11 +16,11 @@ parameters:
 variables:
   ${{ if eq(parameters.ENV, 'uat') }}:
     kubernetesServiceConnection: '$(UAT_KUBERNETES_SERVICE_CONN)'
-    selfHostedAgentPool: $(UAT_AGENT_POOL)
+    selfHostedAgentPool: '$(UAT_AGENT_POOL)'
 
   ${{ if eq(parameters.ENV, 'prod') }}:
     kubernetesServiceConnection: '$(PROD_KUBERNETES_SERVICE_CONN)'
-    selfHostedAgentPool: $(PROD_AGENT_POOL)
+    selfHostedAgentPool: '$(PROD_AGENT_POOL)'
 
   ${{ if eq(parameters.ENV, 'dev') }}:
     kubernetesServiceConnection: '$(DEV_KUBERNETES_SERVICE_CONN)'
