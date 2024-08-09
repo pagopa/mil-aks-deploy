@@ -37,7 +37,7 @@ resources:
 pool:
   name: $(selfHostedAgentPool)
 
-name: "Deploy '${{ parameters.APP_NAME }}' on '${{ parameters.ENV }}' - $(Date:yyyyMMdd).$(Rev:r)"
+name: "Deploy ${{ parameters.APP_NAME }} on ${{ parameters.ENV }} - $(Date:yyyyMMdd).$(Rev:r)"
 
 stages:
   - template: templates/helm-microservice-chart-deploy-tree/template.yaml@templates
