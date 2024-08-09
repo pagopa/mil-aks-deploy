@@ -12,6 +12,7 @@ parameters:
     values:
       - status
       - emd-message-core
+      - mil-papos
 
 variables:
   ${{ if eq(parameters.ENV, 'uat') }}:
