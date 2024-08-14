@@ -42,18 +42,18 @@ microservice-chart:
     httpGet:
       path: /q/health/live 
       port: 8080
-    initialDelaySeconds: 120
-    failureThreshold: 15
-    periodSeconds: 10
+    initialDelaySeconds: 5
+    failureThreshold: 6
+    periodSeconds: 5
 
   readinessProbe:
     handlerType: httpGet
     httpGet:
       path: /q/health/ready
       port: 8080
-    initialDelaySeconds: 35
-    failureThreshold: 15
-    periodSeconds: 10
+    initialDelaySeconds: 5
+    failureThreshold: 6
+    periodSeconds: 5
 
 #
 # Network
