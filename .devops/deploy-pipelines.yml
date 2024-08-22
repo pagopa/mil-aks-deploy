@@ -32,7 +32,7 @@ resources:
     - repository: templates
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v6.7.1
+      ref: 'feat/helm-deploy-tree'
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
