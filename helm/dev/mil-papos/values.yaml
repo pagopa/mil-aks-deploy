@@ -11,13 +11,14 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/mil-papos
-    tag: v1.0.2
+    tag: 1.0.3
     pullPolicy: Always
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
     MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
     APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
+    JWT_PUBLICKEY_LOCATION: jwt-publickey-location
 
   envConfig:
     MONGODB_DBNAME: mil
@@ -25,6 +26,11 @@ microservice-chart:
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
+    MONGO_SERVER_SELECTION_TIMEOUT: "5"
+    MONGO_CONNECT_TIMEOUT: "5"
+    MONGO_READ_TIMEOUT: "10"
+    OTEL_TRACER_EXPORTER_ENABLED: "true"
+
 
   externalConfigMapValues:
     mil-common-poc:
@@ -34,20 +40,20 @@ microservice-chart:
   livenessProbe:
     handlerType: httpGet
     httpGet:
-      path: /actuator/health/liveness
+      path: /q/health/live 
       port: 8080
-    initialDelaySeconds: 120
-    failureThreshold: 15
-    periodSeconds: 10
+    initialDelaySeconds: 5
+    failureThreshold: 6
+    periodSeconds: 5
 
   readinessProbe:
     handlerType: httpGet
     httpGet:
-      path: /actuator/health/readiness
+      path: /q/health/ready
       port: 8080
-    initialDelaySeconds: 35
-    failureThreshold: 15
-    periodSeconds: 10
+    initialDelaySeconds: 5
+    failureThreshold: 6
+    periodSeconds: 5
 
 #
 # Network
