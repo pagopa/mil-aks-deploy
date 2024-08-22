@@ -43,7 +43,6 @@ name: "Deploy ${{ parameters.APP_NAME }} on ${{ parameters.ENV }} - $(Date:yyyyM
 stages:
   - template: templates/helm-microservice-chart-deploy-tree/template.yaml@templates
     parameters:
-      DO_DEPLOY: true
       ENV: ${{ parameters.ENV }}
       KUBERNETES_SERVICE_CONN: ${{ variables.kubernetesServiceConnection }}
       APP_NAME: ${{ parameters.APP_NAME }}
