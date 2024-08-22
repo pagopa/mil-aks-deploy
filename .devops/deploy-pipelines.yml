@@ -32,7 +32,7 @@ resources:
     - repository: templates
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v6.7.1
+      ref: refs/tags/v6.8.0
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
@@ -43,7 +43,6 @@ name: "Deploy ${{ parameters.APP_NAME }} on ${{ parameters.ENV }} - $(Date:yyyyM
 stages:
   - template: templates/helm-microservice-chart-deploy-tree/template.yaml@templates
     parameters:
-      DO_DEPLOY: true
       ENV: ${{ parameters.ENV }}
       KUBERNETES_SERVICE_CONN: ${{ variables.kubernetesServiceConnection }}
       APP_NAME: ${{ parameters.APP_NAME }}
