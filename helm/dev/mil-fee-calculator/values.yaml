@@ -1,0 +1,137 @@
+microservice-chart:
+  namespace: "mil"
+  nameOverride: ""
+  fullnameOverride: ""
+#
+# Deploy
+#
+  deployment:
+    create: true
+    forceRedeploy: true
+
+  image:
+    repository: ghcr.io/pagopa/mil-fee-calculator
+    tag: 1.0.3
+    pullPolicy: Always
+
+  envSecret:
+    MONGODB_URI: mongodb-connection-string
+    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
+    APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
+    JWT_PUBLICKEY_LOCATION: jwt-publickey-location
+
+  envConfig:
+    MONGODB_DBNAME: mil
+    APPLICATIONINSIGHTS_ROLE_NAME: "milfeecalculator"
+    APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
+    APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
+    APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
+    MONGO_SERVER_SELECTION_TIMEOUT: "5"
+    MONGO_CONNECT_TIMEOUT: "5"
+    MONGO_READ_TIMEOUT: "10"
+    OTEL_TRACER_EXPORTER_ENABLED: "true"
+
+
+  externalConfigMapValues:
+    mil-common-poc:
+      TZ: TZ
+      JAVA_TOOL_OPTIONS: JAVA_TOOL_OPTIONS
+
+  livenessProbe:
+    handlerType: httpGet
+    httpGet:
+      path: /q/health/live 
+      port: 8080
+    initialDelaySeconds: 5
+    failureThreshold: 6
+    periodSeconds: 5
+
+  readinessProbe:
+    handlerType: httpGet
+    httpGet:
+      path: /q/health/ready
+      port: 8080
+    initialDelaySeconds: 5
+    failureThreshold: 6
+    periodSeconds: 5
+
+#
+# Network
+#
+  service:
+    create: true
+    type: ClusterIP
+    ports:
+      - 8080
+
+  ingress:
+    create: true
+    host: "mil.weu.internal.dev.cstar.pagopa.it"
+    path: /milfeecalculator(/|$)(.*)
+    rewriteTarget: /$2
+    servicePort: 8080
+    # proxyBodySize: 2m
+    annotations: {
+      nginx.ingress.kubernetes.io/satisfy: "any"
+    }
+
+  serviceAccount:
+    create: false
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 10000
+    runAsGroup: 10000
+
+  resources:
+    requests:
+      memory: "512Mi"
+      cpu: "500m"
+    limits:
+      memory: "512Mi"
+      cpu: "500m"
+
+  autoscaling:
+    enable: true
+    minReplica: 1
+    maxReplica: 1
+    pollingInterval: 30 # seconds
+    cooldownPeriod: 300 # seconds
+    triggers:
+      - type: cpu
+        metadata:
+          type: Utilization
+          value: "60"
+
+  keyvault:
+    name: "cstar-d-weu-mil-kv"
+    tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
+
+  tmpVolumeMount:
+    create: true
+    mounts:
+      - name: tmp
+        mountPath: /tmp
+      - name: logs
+        mountPath: /app/logs
+
+  # nodeSelector: {}
+
+  # tolerations: []
+
+  # affinity: {}
+
+  externalConfigMapFiles:
+    create: true
+    configMaps:
+      - name: appinsights-config
+        key: applicationinsights.json
