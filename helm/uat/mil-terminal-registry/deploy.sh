@@ -1,3 +1,3 @@
 #!/bin/bash
 
-../../../scripts/deploy.sh values.yaml mil cstar-d-weu-dev01-aks mil-terminal-registry
+../../../scripts/deploy.sh values.yaml mil cstar-u-weu-uat01-aks mil-terminal-registry
