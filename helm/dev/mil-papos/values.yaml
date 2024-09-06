@@ -79,7 +79,7 @@ microservice-chart:
     }
 
   serviceAccount:
-    name: testit-workload-identity
+    name: mil-poc-workload-identity
 
   podAnnotations: {}
 
