@@ -77,10 +77,10 @@ microservice-chart:
       nginx.ingress.kubernetes.io/satisfy: "any"
     }
 
+
   serviceAccount:
-    create: false
-    annotations: {}
-    name: ""
+    name: mil-poc-workload-identity
+
 
   podAnnotations: {}
 
@@ -137,3 +137,6 @@ microservice-chart:
     configMaps:
       - name: appinsights-config
         key: applicationinsights.json
+
+  azure:
+    workloadIdentityClientId:  
