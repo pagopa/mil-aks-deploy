@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/mil-auth
-    tag: 1.0.3
+    tag: migrate-to-cstar
     pullPolicy: Always
 
   envSecret:
@@ -30,7 +30,17 @@ microservice-chart:
     MONGO_CONNECT_TIMEOUT: "5"
     MONGO_READ_TIMEOUT: "10"
     OTEL_TRACER_EXPORTER_ENABLED: "true"
-
+    MIL_AUTH_URL: "https://api.dev.cstar.pagopa.it/mil-auth"
+    QUARKUS_LOG_CONSOLE_JSON: "true"
+    QUARKUS_LOG_LEVEL: "ERROR"
+    APP_LOG_LEVEL: "DEBUG"
+    QUARKUS_REST_CLIENT_LOGGING_SCOPE: "all"
+    CRYPTOPERIOD: "43200"
+    KEYSIZE: "2048"
+    ACCESS_DURATION: "900"
+    REFRESH_DURATION: "3600"
+    DATA_URL: "https://cstardmilauthst.blob.core.windows.net/"
+    KV_URL: "https://cstar-d-weu-mil-auth-kv.vault.azure.net/"
 
   externalConfigMapValues:
     mil-common-poc:
@@ -75,10 +85,10 @@ microservice-chart:
       nginx.ingress.kubernetes.io/satisfy: "any"
     }
 
+
   serviceAccount:
-    create: false
-    annotations: {}
-    name: ""
+    name: mil-poc-workload-identity
+
 
   podAnnotations: {}
 
@@ -135,3 +145,6 @@ microservice-chart:
     configMaps:
       - name: appinsights-config
         key: applicationinsights.json
+
+  azure:
+    workloadIdentityClientId: 20a8b595-6ff2-457a-8722-824f8cc4db64
