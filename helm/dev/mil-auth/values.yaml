@@ -42,7 +42,7 @@ microservice-chart:
     DATA_URL: "https://cstardmilauthst.blob.core.windows.net/"
     KV_URL: "https://cstar-d-weu-mil-auth-kv.vault.azure.net/"
     JWT_VALIDATIOR_LOG: "ERROR"
-    KV_MAXRESULT: "999"
+    KV_MAXRESULT: "25"
     KV_BACKOFF_INITIAL_DURATION: "1"
     KV_BACKOFF_INITIAL_JITTER: "0.2"
     KV_BACKOFF_INITIAL_NUMBER_OF_ATTEMPTS: "3"
