@@ -19,6 +19,7 @@ microservice-chart:
     MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
     APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
     JWT_PUBLICKEY_LOCATION: jwt-publickey-location
+    WORKLOAD_IDENTITY_CLIENT_ID: mil-poc-workload-identity-client-id
 
   envConfig:
     MONGODB_DBNAME: mil
