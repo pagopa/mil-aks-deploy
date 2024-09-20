@@ -33,7 +33,10 @@ microservice-chart:
     QUARKUS_LOG_CONSOLE_JSON: "true"
     QUARKUS_LOG_LEVEL: "ERROR"
     APP_LOG_LEVEL: "DEBUG"
-
+    GEC_CONNECT_TIMEOUT: "2000"
+    GEC_READ_TIMEOUT: "2000"
+    REST_CLIENT_CONNECTION_TIMEOUT: "2000"
+    REST_CLIENT_READ_TIMEOUT: "2000"
 
   externalConfigMapValues:
     mil-common-poc:
