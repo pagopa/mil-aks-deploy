@@ -13,6 +13,7 @@ parameters:
       - status
       - emd-message-core
       - mil-papos
+      - mil-fee-calculator
 
 variables:
   ${{ if eq(parameters.ENV, 'uat') }}:
