@@ -19,6 +19,7 @@ microservice-chart:
     MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
     APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
     JWT_PUBLICKEY_LOCATION: jwt-publickey-location
+    GEC_SUBSCRIPTION_KEY: gec-subscription-key
 
   envConfig:
     MONGODB_DBNAME: mil
@@ -37,6 +38,8 @@ microservice-chart:
     GEC_READ_TIMEOUT: "2000"
     REST_CLIENT_CONNECTION_TIMEOUT: "2000"
     REST_CLIENT_READ_TIMEOUT: "2000"
+    REST_CLIENT_FEE_CALCULATOR: "https://mil-d-apim.azure-api.net/mockNodo"
+    REST_SERVICE_URL: "https://cstardmilconfst.blob.core.windows.net/"
 
   externalConfigMapValues:
     mil-common-poc:
