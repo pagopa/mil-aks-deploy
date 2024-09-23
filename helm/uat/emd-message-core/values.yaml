@@ -78,10 +78,11 @@ microservice-chart:
       nginx.ingress.kubernetes.io/satisfy: "any"
     }
 
+
   serviceAccount:
-    create: false
-    annotations: {}
-    name: ""
+    name: mil-poc-workload-identity
+
+
 
   podAnnotations: {}
 
@@ -127,6 +128,9 @@ microservice-chart:
       - name: logs
         mountPath: /app/logs
 
+  azure:
+    workloadIdentityClientId:  
+    
   # nodeSelector: {}
 
   # tolerations: []
