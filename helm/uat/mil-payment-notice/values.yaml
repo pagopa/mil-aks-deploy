@@ -19,6 +19,12 @@ microservice-chart:
     MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
     APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
     JWT_PUBLICKEY_LOCATION: jwt-publickey-location
+    REDIS_URI: redis-connection-string
+    NODE_REST_URI: node-rest-subscription-key
+    NODE_SOAP_URI: node-soap-subscription-key
+    KAFKA_MESSAGE_CORE_SASL_JAAS_CONFIG:
+    KAFKA_TOPIC: "mil-u-presets-evh"
+    KAFKA_BOOTSTRAP_SERVER: "mil-u-evhns.servicebus.windows.net:9093"
 
   envConfig:
     MONGODB_DBNAME: mil
@@ -30,7 +36,21 @@ microservice-chart:
     MONGO_CONNECT_TIMEOUT: "5"
     MONGO_READ_TIMEOUT: "10"
     OTEL_TRACER_EXPORTER_ENABLED: "true"
-
+    QUARKUS_LOG_LEVEL: "ERROR"
+    APP_LOG_LEVEL: "DEBUG"
+    NODE_SOAP_URL: "https://api.uat.platform.pagopa.it/nodo-auth/node-for-psp/v1"
+    NODE_SOAP_CLIENT_CONNECT_TIMEOUT: "2000"
+    NODE_SOAP_CLIENT_READ_TIMEOUT: "2000"
+    NODE_SOAP_CLIENT_REQ_RESP_LOG_LEVEL: "ERROR"
+    NODE_REST_URL: "https://api.uat.platform.pagopa.it/nodo/nodo-per-pm/v1"
+    REST_CLIENT_REQ_RESP_LOG_LEVEL: "ERROR"
+    REST_CLIENT_CONNECT_TIMEOUT: "2000"
+    REST_CLIENT_READ_TIMEOUT: "2000"
+    CLOSEPAYMENT_MAX_RETRY: "10"
+    CLOSEPAYMENT_RETRY_AFTER: "1"   
+    ACTIVATEPAYMENT_EXPIRATION_TIME: "30000"
+    REST_CLIENT_URL: "https://cstardmilconfst.blob.core.windows.net/"
+    CLOSEPAYMENT_LOCATION_BASE_URL: "https://api.dev.cstar.pagopa.it/mil-payment-notice"
 
   externalConfigMapValues:
     mil-common-poc:
