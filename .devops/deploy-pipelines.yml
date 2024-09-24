@@ -64,10 +64,10 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              echo "##vso[task.setVariablePostman variable=enable;isOutput=true]$(yq '.postman-test.enable' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
-              echo "##vso[task.setVariablePostman variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
-              echo "##vso[task.setVariablePostman variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
-              echo "##vso[task.setVariablePostman variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
+              echo "##vso[task.setVariablePostman variable=enable;isOutput=true]$(yq '.postman-test.enable' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+              echo "##vso[task.setVariablePostman variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+              echo "##vso[task.setVariablePostman variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+              echo "##vso[task.setVariablePostman variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
 
         - task: UseNode@1+
           inputs:
