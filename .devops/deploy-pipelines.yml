@@ -62,6 +62,6 @@ stages:
             version: '18.16.0'
         - script: |
             git clone https://github.com/pagopa/mil-papos.git
-            cd mil-papos
+            cd mil-papos/src/test/postman
             npm install -g newman
-            newman run /src/test/postman/mil-papos.postman_collection.json -e /src/test/postman/dev.postman_environment.json
+            newman run mil-papos.postman_collection.json -e dev.postman_environment.json
