@@ -50,18 +50,31 @@ stages:
       VALUE_FILE: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml"
 
   - stage: postman_tests
-    displayName: 🔦 Run Postman Tests
+    displayName: Run Postman Tests
     dependsOn: [helm_deploy]
     condition: succeeded()
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
         steps:
-        - task: UseNode@1
+        - checkout: self
+        - task: Bash@3
+          displayName: 'Set variables'
+          name: varsPostman
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "##vso[task.setVariablePostman variable=enable;isOutput=true]$(yq '.postman-test.enable' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
+              echo "##vso[task.setVariablePostman variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
+              echo "##vso[task.setVariablePostman variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
+              echo "##vso[task.setVariablePostman variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/${{parameters.VALUE_FILE}} )"
+
+        - task: UseNode@1+
           inputs:
             version: '20.x'
         - script: |
-            git clone https://github.com/pagopa/mil-papos.git
-            cd mil-papos/src/test/postman
-            npm install -g newman
-            newman run mil-papos.postman_collection.json -e dev.postman_environment.json
+            if [ "$(varsPostman.enable)" == "true"]; then
+              git clone https://github.com/pagopa/${{parameters.APP_NAME}}.git
+              cd $(varsPostman.dir)
+              npm install -g newman
+              newman run $(varsPostman.collectionName) -e $(varsPostman.envVariables)
