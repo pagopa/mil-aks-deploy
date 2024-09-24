@@ -54,8 +54,8 @@ stages:
     dependsOn: [helm_deploy]
     condition: succeeded()
     jobs:
-      - job: get_postman_variables
-        displayName: Getting postman variable
+      - job: run_postman_tests_job
+        displayName: Run Postman Tests
         steps:
         - checkout: self
         - task: Bash@3
@@ -68,10 +68,6 @@ stages:
               echo "##vso[task.setvariable variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
-
-      - job: run_postman_tests_job
-        displayName: Run Postman Tests
-        steps:
         - task: UseNode@1
           inputs:
             version: '20.x'
