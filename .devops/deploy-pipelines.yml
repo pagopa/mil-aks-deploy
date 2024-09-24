@@ -52,7 +52,7 @@ stages:
   - stage: postman_tests
     displayName: Run Postman Tests
     dependsOn: [helm_deploy]
-    condition: succeeded()
+    condition: and(succeeded(), eq('$(yq '.postman-test.enable' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml)', true)
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
@@ -73,7 +73,8 @@ stages:
           inputs:
             version: '20.x'
         - script: |
-            git clone https://github.com/pagopa/${{parameters.APP_NAME}}.git
-            cd $(varsPostman.dir)
-            npm install -g newman
-            newman run $(varsPostman.collectionName) -e $(varsPostman.envVariables)
+            if ["$(varsPostman.enable)" == "true"]; then
+              git clone https://github.com/pagopa/${{parameters.APP_NAME}}.git
+              cd $(varsPostman.dir)
+              npm install -g newman
+              newman run $(varsPostman.collectionName) -e $(varsPostman.envVariables)
