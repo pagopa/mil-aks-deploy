@@ -71,7 +71,6 @@ stages:
 
       - job: run_postman_tests_job
         displayName: Run Postman Tests
-        condition: eq(variables['enable'], true)
         steps:
         - task: UseNode@1
           inputs:
