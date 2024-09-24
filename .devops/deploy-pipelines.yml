@@ -73,8 +73,7 @@ stages:
           inputs:
             version: '20.x'
         - script: |
-            if [ "$(varsPostman.enable)" == "true"]; then
-              git clone https://github.com/pagopa/${{parameters.APP_NAME}}.git
-              cd $(varsPostman.dir)
-              npm install -g newman
-              newman run $(varsPostman.collectionName) -e $(varsPostman.envVariables)
+            git clone https://github.com/pagopa/${{parameters.APP_NAME}}.git
+            cd $(varsPostman.dir)
+            npm install -g newman
+            newman run $(varsPostman.collectionName) -e $(varsPostman.envVariables)
