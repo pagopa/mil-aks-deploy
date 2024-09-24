@@ -59,9 +59,9 @@ stages:
         steps:
         - task: UseNode@1
           inputs:
-            version: '12.x'
+            version: '18.16.0'
         - script: |
             git clone https://github.com/pagopa/mil-papos.git
-            cd mil-papos/src/test/postman
+            cd mil-papos
             npm install -g newman
-            newman run mil-papos.postman_collection.json -e dev.postman_environment.json
+            newman run /src/test/postman/mil-papos.postman_collection.json -e /src/test/postman/dev.postman_environment.json
