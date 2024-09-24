@@ -71,7 +71,7 @@ stages:
 
       - job: run_postman_tests_job
         displayName: Run Postman Tests
-        condition: eq(dependecies.get_postman_variables.outputs['varsPostman.enable'], 'true')
+        condition: eq(dependencies.get_postman_variables.outputs['varsPostman.enable'], 'true')
         steps:
         - task: UseNode@1
           inputs:
