@@ -69,7 +69,7 @@ stages:
               echo "##vso[task.setVariablePostman variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setVariablePostman variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
 
-        - task: UseNode@1+
+        - task: UseNode@1
           inputs:
             version: '20.x'
         - script: |
