@@ -51,7 +51,7 @@ stages:
 
   - stage: postman_tests
     displayName: 🔦 Run Postman Tests
-    dependsOn: [ ]
+    dependsOn: [helm_deploy]
     condition: succeeded()
     jobs:
       - job: run_postman_tests_job
