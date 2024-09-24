@@ -52,7 +52,7 @@ stages:
   - stage: postman_tests
     displayName: Run Postman Tests
     dependsOn: [helm_deploy]
-    condition: and(succeeded(), eq($(yq '.postman-test.enable' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml), true)
+    condition: succeeded()
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
@@ -78,3 +78,6 @@ stages:
               cd $(varsPostman.dir)
               npm install -g newman
               newman run $(varsPostman.collectionName) -e $(varsPostman.envVariables)
+            else
+              echo "No postman test to perform"
+            fi
