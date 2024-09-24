@@ -52,7 +52,7 @@ stages:
   - stage: postman_tests
     displayName: Run Postman Tests
     dependsOn: [helm_deploy]
-    condition: and(succeeded(), eq('$(yq '.postman-test.enable' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml)', true)
+    condition: and(succeeded(), eq($(yq '.postman-test.enable' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml), true)
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
