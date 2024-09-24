@@ -48,3 +48,20 @@ stages:
       APP_NAME: ${{ parameters.APP_NAME }}
       CHART_PATH: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
       VALUE_FILE: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml"
+
+  - stage: postman_tests
+    displayName: 🔦 Run Postman Tests
+    dependsOn: [ ]
+    condition: succeeded()
+    jobs:
+      - job: run_postman_tests_job
+        displayName: Run Postman Tests
+        steps:
+        - task: UseNode@1
+          inputs:
+            version: '12.x'
+        - script: |
+            git clone https://github.com/pagopa/mil-papos.git
+            cd mil-papos/src/test/postman
+            npm install -g newman
+            newman run mil-papos.postman_collection.json -e dev.postman_environment.json
