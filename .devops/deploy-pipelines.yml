@@ -56,7 +56,7 @@ stages:
   - stage: postman_tests
     displayName: Run Postman Tests
     dependsOn: [helm_deploy]
-    condition: and(succeeded(), eq(${{ parameters.APP_NAME }}, true))
+    condition: and(succeeded(), eq(${{ parameters.POSTMAN_TESTS }}, true))
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
