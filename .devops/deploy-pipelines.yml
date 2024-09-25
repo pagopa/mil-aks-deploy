@@ -13,6 +13,10 @@ parameters:
       - status
       - emd-message-core
       - mil-papos
+  - name: 'POSTMAN_TESTS'
+    displayName: 'Postman tests'
+    type: boolean
+    default: false
 
 variables:
   ${{ if eq(parameters.ENV, 'uat') }}:
@@ -52,7 +56,7 @@ stages:
   - stage: postman_tests
     displayName: Run Postman Tests
     dependsOn: [helm_deploy]
-    condition: succeeded()
+    condition: and(succeeded(), eq(${{ parameters.APP_NAME }}, true))
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
@@ -64,7 +68,6 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
-              echo "##vso[task.setvariable variable=enable;isOutput=true]$(yq '.postman-test.enable' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
