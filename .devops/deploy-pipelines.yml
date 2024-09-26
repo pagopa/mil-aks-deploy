@@ -75,11 +75,11 @@ stages:
     displayName: Run Postman Tests
     dependsOn: [check_postman_test]
     variables:
-          repoName: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.nameRepo']]
+          nameRepo: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.nameRepo']]
           dir: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.dir']]
           collectionName: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.collectionName']]
           envVariables: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.envVariables']]
-    condition: and(succeeded(), ne(variables.dir, ''), ne(variables.collectionName, ''), ne(variables.envVariables, ''))
+    condition: and(succeeded(), ne(variables.nameRepo,''), ne(variables.dir, ''), ne(variables.collectionName, ''), ne(variables.envVariables, ''))
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
@@ -88,7 +88,7 @@ stages:
           inputs:
             version: '20.x'
         - script: |
-              git clone https://github.com/pagopa/$(repoName).git
+              git clone https://github.com/pagopa/$(nameRepo).git
               cd $(dir)
               npm install -g newman
               newman run $(collectionName) -e $(envVariables)
