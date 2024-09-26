@@ -65,6 +65,7 @@ stages:
           inputs:
             targetType: 'inline'
             script: |
+              echo "##vso[task.setvariable variable=repoName;isOutput=true]$(yq '.postman-test.repoName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
@@ -74,10 +75,11 @@ stages:
     displayName: Run Postman Tests
     dependsOn: [check_postman_test]
     variables:
+          repoName: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.repoName']]
           dir: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.dir']]
           collectionName: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.collectionName']]
           envVariables: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.envVariables']]
-    condition: and(succeeded(), ne(variables.dir, ''), ne(variables.collectionName, ''), ne(variables.envVariables, ''))
+    condition: and(succeeded(), ne(variables.dir, ''), ne(variables.collectionName, ''), ne(variables.repoName, ''), ne(variables.envVariables, ''))
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
@@ -86,7 +88,7 @@ stages:
           inputs:
             version: '20.x'
         - script: |
-              git clone https://github.com/pagopa/${{parameters.APP_NAME}}.git
+              git clone https://github.com/pagopa/$(repoName).git
               cd $(dir)
               npm install -g newman
               newman run $(collectionName) -e $(envVariables)
