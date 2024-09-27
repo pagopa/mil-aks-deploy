@@ -51,7 +51,7 @@ stages:
       VALUE_FILE: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml"
 
   - stage: check_postman_test
-    displayName: Check postman tests
+    displayName: Check and run postman tests
     dependsOn: [helm_deploy]
     condition: succeeded()
     jobs:
@@ -70,25 +70,15 @@ stages:
               echo "##vso[task.setvariable variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
     
-
-  - stage: postman_tests
-    displayName: Run Postman Tests
-    dependsOn: [check_postman_test]
-    variables:
-          nameRepo: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.nameRepo']]
-          dir: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.dir']]
-          collectionName: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.collectionName']]
-          envVariables: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.envVariables']]
-    condition: and(succeeded(), eq(variables['nameRepo'], 'mil-papos'))
-    jobs:
-      - job: run_postman_tests_job
-        displayName: Run Postman Tests
-        steps:
-        - task: UseNode@1
-          inputs:
-            version: '20.x'
-        - script: |
-              git clone https://github.com/pagopa/$(nameRepo).git
-              cd $(dir)
-              npm install -g newman
-              newman run $(collectionName) -e $(envVariables)
+        - job: postman_tests
+          dependsOn: get_postman_vars
+          condition: and(succeeded(), eq(dependencies.get_postman_vars.outputs['varsPostman.nameRepo'], 'mil-papos'))
+          steps:
+          - task: UseNode@1
+            inputs:
+              version: '20.x'
+          - script: |
+                git clone https://github.com/pagopa/$(dependencies.get_postman_vars.outputs['varsPostman.nameRepo']).git
+                cd $(dependencies.get_postman_vars.outputs['varsPostman.dir'])
+                npm install -g newman
+                newman run $(dependencies.get_postman_vars.outputs['varsPostman.collectionName']) -e $(dependencies.get_postman_vars.outputs['varsPostman.envVariables'])
