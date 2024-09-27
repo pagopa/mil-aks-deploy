@@ -77,7 +77,7 @@ stages:
           dir: $[dependencies.get_postman_vars.outputs['varsPostman.dir']]
           collectionName: $[dependencies.get_postman_vars.outputs['varsPostman.collectionName']]
           envVariable: $[dependencies.get_postman_vars.outputs['varsPostman.envVariables']]
-        condition: and(succeeded(), ne(variables.nameRepo, null),ne(variables.dir, null),ne(variables.collectionName, null),ne(variables.envVariable, null))
+        condition: and(succeeded(), ne(length(variables.nameRepo), 0),ne(length(variables.dir), 0),ne(length(variables.collectionName), 0),ne(length(variables.envVariable), 0))
         steps:
         - task: UseNode@1
           inputs:
