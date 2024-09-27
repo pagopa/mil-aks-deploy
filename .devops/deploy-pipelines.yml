@@ -78,7 +78,7 @@ stages:
           inputs:
             version: '20.x'
         - script: |
-              git clone https://github.com/pagopa/$(dependencies.get_postman_vars.outputs['varsPostman.nameRepo']).git
-              cd $(dependencies.get_postman_vars.outputs['varsPostman.dir'])
+              git clone https://github.com/pagopa/${{dependencies.get_postman_vars.outputs['varsPostman.nameRepo']}}.git
+              cd ${{dependencies.get_postman_vars.outputs['varsPostman.dir']}}
               npm install -g newman
-              newman run $(dependencies.get_postman_vars.outputs['varsPostman.collectionName']) -e $(dependencies.get_postman_vars.outputs['varsPostman.envVariables'])
+              newman run ${{dependencies.get_postman_vars.outputs['varsPostman.collectionName']}} -e ${{dependencies.get_postman_vars.outputs['varsPostman.envVariables']}}
