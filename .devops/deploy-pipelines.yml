@@ -79,7 +79,7 @@ stages:
           dir: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.dir']]
           collectionName: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.collectionName']]
           envVariables: $[stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.envVariables']]
-    condition: and(succeeded(), ne(stageDependencies.check_postman_test.get_postman_vars.outputs['varsPostman.dir'],''))
+    condition: succeeded()
     jobs:
       - job: run_postman_tests_job
         displayName: Run Postman Tests
