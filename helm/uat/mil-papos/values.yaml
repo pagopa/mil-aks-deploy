@@ -140,3 +140,10 @@ microservice-chart:
 
   azure:
     workloadIdentityClientId:  
+
+
+postman-test:
+  nameRepo: mil-papos
+  dir: mil-papos/src/test/postman
+  collectionName: mil-papos.postman_collection.json
+  envVariables: uat.postman_environment.json
