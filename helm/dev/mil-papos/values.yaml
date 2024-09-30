@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/mil-papos
-    tag: 1.0.3
+    tag: migrate-to-cstar
     pullPolicy: Always
 
   envSecret:
