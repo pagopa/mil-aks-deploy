@@ -69,8 +69,18 @@ stages:
               echo "##vso[task.setvariable variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
               echo "##vso[task.setvariable variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
-    
+        - task: Bash@3
+          displayName: 'Print namespace variables'
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "nameRepo: $(varsPostman.nameRepo)"
+              echo "dir: $(varsPostman.dir)"
+              echo "collectionName: $(varsPostman.collectionName)"
+              echo "envVariables: $(varsPostman.envVariables)"
+
       - job: postman_tests
+        displayName: Postman Tests
         dependsOn: get_postman_vars
         variables:
           nameRepo: $[dependencies.get_postman_vars.outputs['varsPostman.nameRepo']]
