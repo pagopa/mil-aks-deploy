@@ -77,12 +77,14 @@ stages:
           dir: $[dependencies.get_postman_vars.outputs['varsPostman.dir']]
           collectionName: $[dependencies.get_postman_vars.outputs['varsPostman.collectionName']]
           envVariable: $[dependencies.get_postman_vars.outputs['varsPostman.envVariables']]
-        condition: and(succeeded(), ne(variables.nameRepo, ''),ne(variables.dir, ''),ne(variables.collectionName, ''),ne(variables.envVariable, ''))
+        condition: and(succeeded(), ne(variables.nameRepo, 'null'),ne(variables.dir, 'null'),ne(variables.collectionName, 'null'),ne(variables.envVariable, 'null'))
         steps:
         - task: UseNode@1
           inputs:
             version: '20.x'
         - script: |
+              echo $(dir)
+              echo $(nameRepo)
               git clone https://github.com/pagopa/$(nameRepo).git
               cd $(dir)
               npm install -g newman
