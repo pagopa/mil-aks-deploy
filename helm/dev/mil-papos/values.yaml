@@ -144,3 +144,4 @@ postman-test:
   nameRepo: mil-papos
   dir: mil-papos/src/test/postman
   collectionName: mil-papos.postman_collection.json
+  envVariables: dev.postman_environment.json
