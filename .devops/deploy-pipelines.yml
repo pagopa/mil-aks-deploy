@@ -15,6 +15,7 @@ parameters:
       - mil-papos
       - mil-auth
 
+
 variables:
   ${{ if eq(parameters.ENV, 'uat') }}:
     kubernetesServiceConnection: '$(UAT_KUBERNETES_SERVICE_CONN)'
@@ -49,3 +50,41 @@ stages:
       APP_NAME: ${{ parameters.APP_NAME }}
       CHART_PATH: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
       VALUE_FILE: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml"
+
+  - stage: check_postman_test
+    displayName: Check and run postman tests
+    dependsOn: [helm_deploy]
+    condition: succeeded()
+    jobs:
+      - job: get_postman_vars
+        displayName: Get and Set Postman variables
+        steps:
+        - checkout: self
+        - task: Bash@3
+          displayName: 'Set variables'
+          name: varsPostman
+          inputs:
+            targetType: 'inline'
+            script: |
+              echo "##vso[task.setvariable variable=nameRepo;isOutput=true]$(yq '.postman-test.nameRepo' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+              echo "##vso[task.setvariable variable=dir;isOutput=true]$(yq '.postman-test.dir' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+              echo "##vso[task.setvariable variable=collectionName;isOutput=true]$(yq '.postman-test.collectionName' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+              echo "##vso[task.setvariable variable=envVariables;isOutput=true]$(yq '.postman-test.envVariables' $(Build.Repository.LocalPath)/helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml )"
+    
+      - job: postman_tests
+        dependsOn: get_postman_vars
+        variables:
+          nameRepo: $[dependencies.get_postman_vars.outputs['varsPostman.nameRepo']]
+          dir: $[dependencies.get_postman_vars.outputs['varsPostman.dir']]
+          collectionName: $[dependencies.get_postman_vars.outputs['varsPostman.collectionName']]
+          envVariable: $[dependencies.get_postman_vars.outputs['varsPostman.envVariables']]
+        condition: and(succeeded(), ne(variables.nameRepo, 'null'),ne(variables.dir, 'null'),ne(variables.collectionName, 'null'),ne(variables.envVariable, 'null'))
+        steps:
+        - task: UseNode@1
+          inputs:
+            version: '20.x'
+        - script: |
+              git clone https://github.com/pagopa/$(nameRepo).git
+              cd $(dir)
+              npm install -g newman
+              newman run $(collectionName) -e $(envVariable)

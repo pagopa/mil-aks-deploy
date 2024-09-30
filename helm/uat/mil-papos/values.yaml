@@ -96,11 +96,11 @@ microservice-chart:
 
   resources:
     requests:
-      memory: "512Mi"
-      cpu: "500m"
+      memory: "100Mi"
+      cpu: "100m"
     limits:
-      memory: "512Mi"
-      cpu: "500m"
+      memory: "100Mi"
+      cpu: "100m"
 
   autoscaling:
     enable: true
@@ -140,3 +140,10 @@ microservice-chart:
 
   azure:
     workloadIdentityClientId:  
+
+
+postman-test:
+  nameRepo: mil-papos
+  dir: mil-papos/src/test/postman
+  collectionName: mil-papos.postman_collection.json
+  envVariables: uat.postman_environment.json
