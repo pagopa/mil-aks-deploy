@@ -13,6 +13,7 @@ parameters:
       - status
       - emd-message-core
       - mil-papos
+      - mil-auth
 
 
 variables:
