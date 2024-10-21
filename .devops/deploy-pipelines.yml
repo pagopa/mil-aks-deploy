@@ -13,6 +13,8 @@ parameters:
       - status
       - emd-message-core
       - mil-papos
+      - emd-tpp
+      - emd-citizen
 
 
 variables:
