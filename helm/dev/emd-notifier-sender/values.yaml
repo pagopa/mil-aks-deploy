@@ -34,11 +34,16 @@ microservice-chart:
   externalConfigMapValues:
     mil-common-poc:
       TZ: TZ
+    rest-client:
+      EMD_CITIZEN: emd-citizen-baseurl
+      EMD_TPP: emd-tpp-baseurl
     emd-eventhub:
       KAFKA_BROKER: kafka_broker
       KAFKA_ERRORS_BROKER: kafka_broker
       KAFKA_TOPIC_MESSAGE_CORE: emd_courtesy_message_topic
       KAFKA_MESSAGE_CORE_GROUP_IN: emd-courtesy-message-consumer-group
+      KAFKA_TOPIC_NOTIFY_ERROR: emd_notify_error_topic
+      KAFKA_NOTIFY_ERROR_GROUP_IN: emd-notify-error-consumer-group
 
   livenessProbe:
     handlerType: httpGet
