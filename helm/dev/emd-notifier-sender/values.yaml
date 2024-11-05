@@ -19,6 +19,8 @@ microservice-chart:
     MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
     KAFKA_MESSAGE_CORE_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-consumer-jaas-config-emd
     KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    KAFKA_NOTIFY_ERROR_SASL_JAAS_CONFIG: evh-emd-notify-error-emd-notify-error-consumer-jaas-config-emd
+    KAFKA_NOTIFY_ERROR_OUT_SASL_JAAS_CONFIG: evh-emd-notify-error-emd-notify-error-producer-jaas-config-emd
     HYPE_TENANT: hype-tenant-info
     HYPE_CLIENT: hype-client-identifier
     HYPE_KEY: hype-client-key
