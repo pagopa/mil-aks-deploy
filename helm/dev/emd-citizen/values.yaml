@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-citizen
-    tag: snapshot-release-dev
+    tag: snapshot-MMC-58-revisione-microservizio-emd-citizen
     pullPolicy: Always
 
   envSecret:
@@ -29,6 +29,8 @@ microservice-chart:
     mil-common-poc:
       TZ: TZ
       JAVA_TOOL_OPTIONS: JAVA_TOOL_OPTIONS
+    rest-client:
+      EMD_TPP: emd-tpp-baseurl
 
   livenessProbe:
     handlerType: httpGet
