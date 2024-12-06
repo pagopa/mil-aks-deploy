@@ -17,7 +17,7 @@ microservice-chart:
   envSecret:
     MONGODB_URI: mongodb-connection-string
     MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
-    
+
 
   envConfig:
     MONGODB_DBNAME: mil
@@ -133,4 +133,4 @@ microservice-chart:
         key: applicationinsights.json
 
   azure:
-    workloadIdentityClientId: 20a8b595-6ff2-457a-8722-824f8cc4db64
+    workloadIdentityClientId: e8bd0a7c-aecd-4f90-8c78-393dfa4feb12

@@ -1,0 +1,10 @@
+microservice-chart:
+  namespace: "mil"
+  nameOverride: ""
+  fullnameOverride: ""
+
+  serviceAccount:
+    name: mil-poc-workload-identity
+
+  azure:
+    workloadIdentityClientId: c75ec56f-519a-441d-bd81-42769baa9006
