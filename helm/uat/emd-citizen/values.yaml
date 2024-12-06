@@ -10,18 +10,18 @@ microservice-chart:
     forceRedeploy: true
 
   image:
-    repository: ghcr.io/pagopa/emd-message-core
+    repository: ghcr.io/pagopa/emd-citizen
     tag: snapshot-release-uat
     pullPolicy: Always
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
     MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
-    KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    
 
-    envConfig:
+  envConfig:
     MONGODB_DBNAME: mil
-    APPLICATIONINSIGHTS_ROLE_NAME: "emdmessagecore"
+    APPLICATIONINSIGHTS_ROLE_NAME: "emdcitizen"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
@@ -31,12 +31,7 @@ microservice-chart:
     mil-common-poc:
       TZ: TZ
     rest-client:
-      EMD_CITIZEN: emd-citizen-baseurl
       EMD_TPP: emd-tpp-baseurl
-    emd-eventhub:
-      KAFKA_BROKER: kafka_broker
-      KAFKA_ERRORS_BROKER: kafka_broker
-      KAFKA_TOPIC_MESSAGE_CORE: emd_courtesy_message_topic
 
   livenessProbe:
     handlerType: httpGet
@@ -68,7 +63,7 @@ microservice-chart:
   ingress:
     create: true
     host: "mil.weu.internal.uat.cstar.pagopa.it"
-    path: /emdmessagecore(/|$)(.*)
+    path: /emdcitizen(/|$)(.*)
     rewriteTarget: /$2
     servicePort: 8080
     # proxyBodySize: 2m
@@ -79,7 +74,6 @@ microservice-chart:
 
   serviceAccount:
     name: mil-poc-workload-identity
-
 
 
   podAnnotations: {}
