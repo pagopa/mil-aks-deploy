@@ -16,7 +16,7 @@ microservice-chart:
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
-    MY_KV_SECRET: cstar-u-weu-dev01-aks-apiserver-url
+    MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
 
   envConfig:
     MONGODB_DBNAME: mil
