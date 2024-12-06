@@ -10,33 +10,27 @@ microservice-chart:
     forceRedeploy: true
 
   image:
-    repository: ghcr.io/pagopa/emd-message-core
+    repository: ghcr.io/pagopa/emd-tpp
     tag: snapshot-release-uat
     pullPolicy: Always
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
-    MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
-    KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    MY_KV_SECRET: cstar-u-weu-dev01-aks-apiserver-url
 
-    envConfig:
+  envConfig:
     MONGODB_DBNAME: mil
-    APPLICATIONINSIGHTS_ROLE_NAME: "emdmessagecore"
+    APPLICATIONINSIGHTS_ROLE_NAME: "emdtpp"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
+    AZURE_KEYVAULT_URL: "https://cstar-u-weu-mil-kv.vault.azure.net"
     JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=7 -Dio.netty.eventLoopThreads=100 -javaagent:/app/applicationinsights-agent.jar -Dapplicationinsights.configuration.file=/mnt/file-config-external/appinsights-config/applicationinsights.json -agentlib:jdwp=transport=dt_socket,server=y,address=8001,suspend=n -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=3002 -Dcom.sun.management.jmxremote.rmi.port=3003 -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+
 
   externalConfigMapValues:
     mil-common-poc:
       TZ: TZ
-    rest-client:
-      EMD_CITIZEN: emd-citizen-baseurl
-      EMD_TPP: emd-tpp-baseurl
-    emd-eventhub:
-      KAFKA_BROKER: kafka_broker
-      KAFKA_ERRORS_BROKER: kafka_broker
-      KAFKA_TOPIC_MESSAGE_CORE: emd_courtesy_message_topic
 
   livenessProbe:
     handlerType: httpGet
@@ -68,7 +62,7 @@ microservice-chart:
   ingress:
     create: true
     host: "mil.weu.internal.uat.cstar.pagopa.it"
-    path: /emdmessagecore(/|$)(.*)
+    path: /emdtpp(/|$)(.*)
     rewriteTarget: /$2
     servicePort: 8080
     # proxyBodySize: 2m
@@ -79,7 +73,6 @@ microservice-chart:
 
   serviceAccount:
     name: mil-poc-workload-identity
-
 
 
   podAnnotations: {}
