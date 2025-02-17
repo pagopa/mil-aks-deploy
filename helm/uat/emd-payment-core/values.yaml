@@ -109,7 +109,7 @@ microservice-chart:
           value: "60"
 
   keyvault:
-    name: "cstar-d-weu-mil-kv"
+    name: "cstar-u-weu-mil-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
 
   tmpVolumeMount:
