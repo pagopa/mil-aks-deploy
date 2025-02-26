@@ -16,7 +16,7 @@ microservice-chart:
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
-    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
+    MY_KV_SECRET: cstar-p-weu-prod01-aks-apiserver-url
 
   envConfig:
     MONGODB_DBNAME: mil
@@ -62,7 +62,7 @@ microservice-chart:
 
   ingress:
     create: true
-    host: "mil.weu.internal.dev.cstar.pagopa.it"
+    host: "mil.weu.internal.prod.cstar.pagopa.it"
     path: /emdpaymentcore(/|$)(.*)
     rewriteTarget: /$2
     servicePort: 8080
@@ -109,7 +109,7 @@ microservice-chart:
           value: "60"
 
   keyvault:
-    name: "cstar-d-weu-mil-kv"
+    name: "cstar-p-weu-mil-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
 
   tmpVolumeMount:
@@ -133,4 +133,4 @@ microservice-chart:
         key: applicationinsights.json
 
   azure:
-    workloadIdentityClientId: 20a8b595-6ff2-457a-8722-824f8cc4db64
+    workloadIdentityClientId: c75ec56f-519a-441d-bd81-42769baa900
