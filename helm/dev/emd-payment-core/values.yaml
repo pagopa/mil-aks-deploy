@@ -10,52 +10,46 @@ microservice-chart:
     forceRedeploy: true
 
   image:
-    repository: ghcr.io/pagopa/mil-papos
-    tag: 1.0.3
+    repository: ghcr.io/pagopa/emd-payment-core
+    tag: snapshot-stub
     pullPolicy: Always
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
-    MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
-    APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
-    JWT_PUBLICKEY_LOCATION: jwt-publickey-location
+    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
 
   envConfig:
     MONGODB_DBNAME: mil
-    APPLICATIONINSIGHTS_ROLE_NAME: "milpapos"
+    APPLICATIONINSIGHTS_ROLE_NAME: "emdpaymentcore"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
-    MONGO_SERVER_SELECTION_TIMEOUT: "5"
-    MONGO_CONNECT_TIMEOUT: "5"
-    MONGO_READ_TIMEOUT: "10"
-    OTEL_TRACER_EXPORTER_ENABLED: "true"
-    QUARKUS_LOG_LEVEL: "ERROR"
-    APP_LOG_LEVEL: "DEBUG"
-  
+    JAVA_TOOL_OPTIONS: "-Xms256m -Xmx512m -Djava.util.concurrent.ForkJoinPool.common.parallelism=7 -Dio.netty.eventLoopThreads=100 -javaagent:/app/applicationinsights-agent.jar -Dapplicationinsights.configuration.file=/mnt/file-config-external/appinsights-config/applicationinsights.json -agentlib:jdwp=transport=dt_socket,server=y,address=8001,suspend=n -Dcom.sun.management.jmxremote=true -Dcom.sun.management.jmxremote.port=3002 -Dcom.sun.management.jmxremote.rmi.port=3003 -Djava.rmi.server.hostname=127.0.0.1 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+
   externalConfigMapValues:
     mil-common-poc:
       TZ: TZ
-      JAVA_TOOL_OPTIONS: JAVA_TOOL_OPTIONS
+    rest-client:
+      EMD_CITIZEN: emd-citizen-baseurl
+      EMD_TPP: emd-tpp-baseurl
 
- 
   livenessProbe:
     handlerType: httpGet
     httpGet:
-      path: /q/health/live 
+      path: /actuator/health/liveness
       port: 8080
-    initialDelaySeconds: 5
-    failureThreshold: 6
-    periodSeconds: 5
+    initialDelaySeconds: 120
+    failureThreshold: 15
+    periodSeconds: 10
 
   readinessProbe:
     handlerType: httpGet
     httpGet:
-      path: /q/health/ready
+      path: /actuator/health/readiness
       port: 8080
-    initialDelaySeconds: 5
-    failureThreshold: 6
-    periodSeconds: 5
+    initialDelaySeconds: 35
+    failureThreshold: 15
+    periodSeconds: 10
 
 #
 # Network
@@ -68,8 +62,8 @@ microservice-chart:
 
   ingress:
     create: true
-    host: "mil.weu.internal.uat.cstar.pagopa.it"
-    path: /milpapos(/|$)(.*)
+    host: "mil.weu.internal.dev.cstar.pagopa.it"
+    path: /emdpaymentcore(/|$)(.*)
     rewriteTarget: /$2
     servicePort: 8080
     # proxyBodySize: 2m
@@ -96,11 +90,11 @@ microservice-chart:
 
   resources:
     requests:
-      memory: "100Mi"
-      cpu: "100m"
+      memory: "512Mi"
+      cpu: "500m"
     limits:
-      memory: "100Mi"
-      cpu: "100m"
+      memory: "512Mi"
+      cpu: "500m"
 
   autoscaling:
     enable: true
@@ -115,7 +109,7 @@ microservice-chart:
           value: "60"
 
   keyvault:
-    name: "cstar-u-weu-mil-kv"
+    name: "cstar-d-weu-mil-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
 
   tmpVolumeMount:
@@ -139,11 +133,4 @@ microservice-chart:
         key: applicationinsights.json
 
   azure:
-    workloadIdentityClientId:  
-
-
-postman-test:
-  nameRepo: mil-papos
-  dir: mil-papos/src/test/postman
-  collectionName: mil-papos.postman_collection.json
-  envVariables: uat.postman_environment.json
+    workloadIdentityClientId: 20a8b595-6ff2-457a-8722-824f8cc4db64

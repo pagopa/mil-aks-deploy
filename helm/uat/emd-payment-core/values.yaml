@@ -10,19 +10,17 @@ microservice-chart:
     forceRedeploy: true
 
   image:
-    repository: ghcr.io/pagopa/emd-citizen
-    tag: snapshot-release-dev
+    repository: ghcr.io/pagopa/emd-payment-core
+    tag: snapshot-release-uat
     pullPolicy: Always
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
-    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
-    REDIS_CONNECTION_HOSTNAME: emd-redis-00-primary-connection-hostname
-    REDIS_CONNECTION_PASSWORD: emd-redis-00-primary-password
-    
+    MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
+
   envConfig:
     MONGODB_DBNAME: mil
-    APPLICATIONINSIGHTS_ROLE_NAME: "emdcitizen"
+    APPLICATIONINSIGHTS_ROLE_NAME: "emdpaymentcore"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
@@ -32,6 +30,7 @@ microservice-chart:
     mil-common-poc:
       TZ: TZ
     rest-client:
+      EMD_CITIZEN: emd-citizen-baseurl
       EMD_TPP: emd-tpp-baseurl
 
   livenessProbe:
@@ -63,8 +62,8 @@ microservice-chart:
 
   ingress:
     create: true
-    host: "mil.weu.internal.dev.cstar.pagopa.it"
-    path: /emdcitizen(/|$)(.*)
+    host: "mil.weu.internal.uat.cstar.pagopa.it"
+    path: /emdpaymentcore(/|$)(.*)
     rewriteTarget: /$2
     servicePort: 8080
     # proxyBodySize: 2m
@@ -91,11 +90,11 @@ microservice-chart:
 
   resources:
     requests:
-      memory: "768Mi"
-      cpu: "150m"
+      memory: "512Mi"
+      cpu: "500m"
     limits:
-      memory: "768Mi"
-      cpu: "600m"
+      memory: "512Mi"
+      cpu: "500m"
 
   autoscaling:
     enable: true
@@ -110,7 +109,7 @@ microservice-chart:
           value: "60"
 
   keyvault:
-    name: "cstar-d-weu-mil-kv"
+    name: "cstar-u-weu-mil-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
 
   tmpVolumeMount:
@@ -134,4 +133,4 @@ microservice-chart:
         key: applicationinsights.json
 
   azure:
-    workloadIdentityClientId: 20a8b595-6ff2-457a-8722-824f8cc4db64
+    workloadIdentityClientId: e8bd0a7c-aecd-4f90-8c78-393dfa4feb12

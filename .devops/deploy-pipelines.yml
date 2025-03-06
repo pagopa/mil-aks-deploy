@@ -16,6 +16,7 @@ parameters:
       - emd-tpp
       - emd-citizen
       - emd-notifier-sender
+      - emd-payment-core
 
 variables:
   ${{ if eq(parameters.ENV, 'uat') }}:
