@@ -11,8 +11,9 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-notifier-sender
-    tag: snapshot-release-prod
+    tag: latest
     pullPolicy: Always
+    
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
