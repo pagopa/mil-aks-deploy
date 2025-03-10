@@ -10,7 +10,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/devops-app-status
-    tag: v1.6.1
+    tag: snapshot-release-dev
     pullPolicy: Always
 
   envSecret:
@@ -75,7 +75,7 @@ microservice-chart:
   autoscaling:
     enable: false
     minReplica: 1
-    maxReplica: 3
+    maxReplica: 1
     pollingInterval: 30 # seconds
     cooldownPeriod: 300 # seconds
     triggers:
@@ -95,7 +95,7 @@ microservice-chart:
         mountPath: /tmp
       - name: logs
         mountPath: /app/logs
-  
+
   azure:
     workloadIdentityClientId: 20a8b595-6ff2-457a-8722-824f8cc4db64
 
