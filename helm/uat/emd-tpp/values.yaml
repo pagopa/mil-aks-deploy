@@ -26,6 +26,7 @@ microservice-chart:
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
     AZURE_KEYVAULT_URL: "https://cstar-u-weu-mil-kv.vault.azure.net"
     JAVA_TOOL_OPTIONS: >-
+      -XX:InitialRAMPercentage=75.0
       -XX:MaxRAMPercentage=85.0
       -XX:+UseG1GC
       -XX:+UseContainerSupport
