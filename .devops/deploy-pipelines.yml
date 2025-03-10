@@ -12,7 +12,6 @@ parameters:
     values:
       - status
       - emd-message-core
-      - mil-papos
       - emd-tpp
       - emd-citizen
       - emd-notifier-sender
