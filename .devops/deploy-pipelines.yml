@@ -35,7 +35,7 @@ resources:
     - repository: templates
       type: github
       name: pagopa/azure-pipeline-templates
-      ref: refs/tags/v6.8.0
+      ref: refs/heads/force-deploy-helm
       endpoint: 'io-azure-devops-github-ro'
 
 pool:
@@ -51,6 +51,7 @@ stages:
       APP_NAME: ${{ parameters.APP_NAME }}
       CHART_PATH: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}"
       VALUE_FILE: "helm/${{parameters.ENV}}/${{parameters.APP_NAME}}/values.yaml"
+      FORCE_DEPLOY: true
 
   - stage: check_postman_test
     displayName: Check and run postman tests
