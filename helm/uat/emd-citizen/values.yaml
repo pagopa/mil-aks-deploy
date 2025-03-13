@@ -17,7 +17,6 @@ microservice-chart:
   envSecret:
     MONGODB_URI: mongodb-connection-string
     MY_KV_SECRET: cstar-u-weu-uat01-aks-apiserver-url
-    #SOLO PER UAT DIVERSE
     REDIS_CONNECTION_HOSTNAME: emd-redis-primary-connection-hostname
     REDIS_CONNECTION_PASSWORD: emd-redis-primary-access-key
 
