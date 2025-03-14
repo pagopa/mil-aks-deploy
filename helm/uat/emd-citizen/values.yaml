@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-citizen
-    tag: snapshot-release-uat
+    tag: snapshot-release-uat@sha256:5927ae2cabaa37e94083f44f903ba23d0d28516fbb403dbd07c00e9d9e653984
     pullPolicy: Always
 
   envSecret:
