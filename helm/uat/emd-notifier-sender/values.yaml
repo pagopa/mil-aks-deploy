@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-notifier-sender
-    tag: snapshot-base-kafka-delay
+    tag: snapshot-release-uat
     pullPolicy: Always
 
   envSecret:
