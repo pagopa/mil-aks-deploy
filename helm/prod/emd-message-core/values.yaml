@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-message-core
-    tag: latest
+    tag: v1.2.0
     pullPolicy: Always
 
   envSecret:
@@ -75,7 +75,7 @@ microservice-chart:
 
   ingress:
     create: true
-    host: "mil.weu.internal.prod.cstar.pagopa.it"
+    host: "mil.weu.internal.cstar.pagopa.it"
     path: /emdmessagecore(/|$)(.*)
     rewriteTarget: /$2
     servicePort: 8080
