@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-citizen
-    tag: latest
+    tag: v1.0.0
     pullPolicy: Always
 
   envSecret:
@@ -72,7 +72,7 @@ microservice-chart:
 
   ingress:
     create: true
-    host: "mil.weu.internal.prod.cstar.pagopa.it"
+    host: "mil.weu.internal.cstar.pagopa.it"
     path: /emdcitizen(/|$)(.*)
     rewriteTarget: /$2
     servicePort: 8080
