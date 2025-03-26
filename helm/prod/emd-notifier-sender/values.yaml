@@ -39,6 +39,7 @@ microservice-chart:
       -Dio.netty.eventLoopThreads=100
       -javaagent:/app/applicationinsights-agent.jar
       -Dapplicationinsights.configuration.file=/mnt/file-config-external/appinsights-config/applicationinsights.json
+
   externalConfigMapValues:
     mil-common-poc:
       TZ: TZ
@@ -95,6 +96,8 @@ microservice-chart:
   serviceAccount:
     name: mil-poc-workload-identity
 
+  azure:
+    workloadIdentityClientId: c75ec56f-519a-441d-bd81-42769baa9006
 
   podAnnotations: {}
 
@@ -151,6 +154,3 @@ microservice-chart:
     configMaps:
       - name: appinsights-config
         key: applicationinsights.json
-
-  azure:
-    workloadIdentityClientId: c75ec56f-519a-441d-bd81-42769baa900

@@ -84,10 +84,11 @@ microservice-chart:
       nginx.ingress.kubernetes.io/satisfy: "any"
     }
 
-
   serviceAccount:
     name: mil-poc-workload-identity
 
+  azure:
+    workloadIdentityClientId: c75ec56f-519a-441d-bd81-42769baa9006
 
   podAnnotations: {}
 
@@ -144,6 +145,3 @@ microservice-chart:
     configMaps:
       - name: appinsights-config
         key: applicationinsights.json
-
-  azure:
-    workloadIdentityClientId: c75ec56f-519a-441d-bd81-42769baa9006
