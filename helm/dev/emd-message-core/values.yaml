@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-message-core
-    tag: snapshot-release-dev
+    tag: snapshot-release-dev@sha256:a9ea396b09c3c970d53ecbfc34aaf40284058fdcf2f7fab56fd796f53c79fbe0
     pullPolicy: Always
 
   envSecret:
