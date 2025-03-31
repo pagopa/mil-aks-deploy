@@ -19,6 +19,7 @@ microservice-chart:
     MY_KV_SECRET: cstar-p-weu-prod01-aks-apiserver-url
     REDIS_CONNECTION_HOSTNAME: emd-redis-primary-connection-hostname
     REDIS_CONNECTION_PASSWORD: emd-redis-primary-access-key
+    APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
 
   envConfig:
     MONGODB_DBNAME: mil

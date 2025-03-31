@@ -18,6 +18,7 @@ microservice-chart:
     MONGODB_URI: mongodb-connection-string
     MY_KV_SECRET: cstar-p-weu-prod01-aks-apiserver-url
     KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
 
   envConfig:
     MONGODB_DBNAME: mil
