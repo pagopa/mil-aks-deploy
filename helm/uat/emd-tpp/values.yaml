@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-tpp
-    tag: snapshot-release-uat
+    tag: snapshot-release-uat@sha256:529edd7476743425d3ea6538953596a10f3f25782e9ba2eff6f145be103abfbc
     pullPolicy: Always
 
   envSecret:
