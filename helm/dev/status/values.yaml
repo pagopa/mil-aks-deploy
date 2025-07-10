@@ -10,7 +10,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/devops-app-status
-    tag: v1.6.1
+    tag: v1.6.1@sha256:36b311cb2331bff4e366a15984be237d93e814e5d4f349f7bcd9f55f757ffbb8
     pullPolicy: Always
 
   envSecret:

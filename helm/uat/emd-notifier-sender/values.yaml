@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-notifier-sender
-    tag: snapshot-release-uat
+    tag: snapshot-release-uat@sha256:8f0e3cae15ee5c61cca7ffd423851e41827ed8e33ac68fa89b90a95731f646ee
     pullPolicy: Always
 
   envSecret:

@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-notifier-sender
-    tag: v1.0.2
+    tag: v1.0.2@sha256:bf33c51b68f117073a57fc922340ff287e5d782cba33716bc262528540214ace
     pullPolicy: Always
 
 
