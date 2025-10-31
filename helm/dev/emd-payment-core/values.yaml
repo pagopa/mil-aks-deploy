@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-payment-core
-    tag: snapshot-release-dev
+    tag: snapshot-release-dev@sha256:74a3b6e2ed2df48b2336cf71d9f88420d90c0975099b8adf7b76f5dee51f3063
     pullPolicy: Always
 
   envSecret:
