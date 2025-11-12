@@ -11,9 +11,8 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-notifier-sender
-    tag: v1.0.3
+    tag: v1.0.6
     pullPolicy: Always
-
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
@@ -26,6 +25,7 @@ microservice-chart:
 
   envConfig:
     MONGODB_DBNAME: mil
+    BENEFICIARY_RULE_BUILD_DELAY_DURATION: "150"
     APPLICATIONINSIGHTS_ROLE_NAME: "emdnotifiersender"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
