@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-payment-core
-    tag: snapshot-MMC-239-rename-payment-btn
+    tag: v1.1.0
     pullPolicy: Always
 
   envSecret:
