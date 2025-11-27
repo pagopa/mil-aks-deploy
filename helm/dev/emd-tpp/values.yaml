@@ -19,6 +19,8 @@ microservice-chart:
     MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
 
   envConfig:
+    LOGGING_LEVEL_IT_GOV_PAGOPA: "DEBUG"
+    
     MONGODB_DBNAME: mil
     APPLICATIONINSIGHTS_ROLE_NAME: "emdtpp"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
