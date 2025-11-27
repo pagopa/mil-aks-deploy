@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-notifier-sender
-    tag: MMC-276-make-message-editable-for-each-tpp
+    tag: snapshot-MMC-276-make-message-editable-for-each-tpp
     pullPolicy: Always
 
   envSecret:
