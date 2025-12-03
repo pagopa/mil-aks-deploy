@@ -24,6 +24,8 @@ microservice-chart:
     APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
 
   envConfig:
+    LOGGING_LEVEL_IT_GOV_PAGOPA_NOTIFIER: "DEBUG"
+    
     MONGODB_DBNAME: mil
     BENEFICIARY_RULE_BUILD_DELAY_DURATION: "150"
     APPLICATIONINSIGHTS_ROLE_NAME: "emdnotifiersender"
