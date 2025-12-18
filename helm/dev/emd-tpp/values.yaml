@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-tpp
-    tag: v1.3.0
+    tag: snapshot-MMC-281-handle-tpp-msg-disable
     pullPolicy: Always
 
   envSecret:
