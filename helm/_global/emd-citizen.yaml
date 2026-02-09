@@ -62,7 +62,7 @@ microservice-chart:
         key: applicationinsights.json
 
   externalConfigMapValues:
-    mil-common-poc:
+    mdc-common:
       TZ: TZ
     rest-client:
       EMD_TPP: emd-tpp-baseurl
