@@ -82,21 +82,21 @@ microservice-chart:
 
   nodeSelector: {}
 
-#  tolerations:
-#    - key: "idpayOnly"
-#      operator: "Equal"
-#      value: "true"
-#      effect: "NoSchedule"
-#
-#  affinity:
-#    nodeAffinity:
-#      requiredDuringSchedulingIgnoredDuringExecution:
-#        nodeSelectorTerms:
-#        - matchExpressions:
-#          - key: domain
-#            operator: In
-#            values:
-#            - idpay
+  tolerations:
+    - key: "mdcOnly"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: domain
+                operator: In
+                values:
+                  - mdc
 
 # How to deploy Canary(?)
 # To deploy a canary version:
