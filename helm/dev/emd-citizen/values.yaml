@@ -1,27 +1,25 @@
 microservice-chart:
-  namespace: "mil"
-  nameOverride: ""
-  fullnameOverride: ""
-#
-# Deploy
-#
-  deployment:
-    create: true
-    forceRedeploy: true
-
   image:
     repository: ghcr.io/pagopa/emd-citizen
     tag: v1.0.5
     pullPolicy: Always
 
-  envSecret:
-    MONGODB_URI: mongodb-connection-string
-    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
-    REDIS_CONNECTION_HOSTNAME: emd-redis-primary-connection-hostname
-    REDIS_CONNECTION_PASSWORD: emd-redis-primary-access-key
+  ingress:
+    host: "mdc.itn.internal.dev.cstar.pagopa.it"
+
+  resources:
+    requests:
+      memory: "768Mi"
+      cpu: "150m"
+    limits:
+      memory: "1536Mi"
+      cpu: "600m"
+
+  autoscaling:
+    enable: false
 
   envConfig:
-    MONGODB_DBNAME: mil
+    MONGODB_DBNAME: mdc
     APPLICATIONINSIGHTS_ROLE_NAME: "emdcitizen"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
@@ -44,110 +42,9 @@ microservice-chart:
       -Dcom.sun.management.jmxremote.authenticate=false
       -Dcom.sun.management.jmxremote.ssl=false
 
-  externalConfigMapValues:
-    mil-common-poc:
-      TZ: TZ
-    rest-client:
-      EMD_TPP: emd-tpp-baseurl
-
-  livenessProbe:
-    handlerType: httpGet
-    httpGet:
-      path: /actuator/health/liveness
-      port: 8080
-    initialDelaySeconds: 120
-    failureThreshold: 15
-    periodSeconds: 10
-
-  readinessProbe:
-    handlerType: httpGet
-    httpGet:
-      path: /actuator/health/readiness
-      port: 8080
-    initialDelaySeconds: 35
-    failureThreshold: 15
-    periodSeconds: 10
-
-#
-# Network
-#
-  service:
-    create: true
-    type: ClusterIP
-    ports:
-      - 8080
-
-  ingress:
-    create: true
-    host: "mil.weu.internal.dev.cstar.pagopa.it"
-    path: /emdcitizen(/|$)(.*)
-    rewriteTarget: /$2
-    servicePort: 8080
-    # proxyBodySize: 2m
-    annotations: {
-      nginx.ingress.kubernetes.io/satisfy: "any"
-    }
-
-
-  serviceAccount:
-    name: mil-poc-workload-identity
-
-
-  podAnnotations: {}
-
-  podSecurityContext:
-    seccompProfile:
-      type: RuntimeDefault
-
-  securityContext:
-    allowPrivilegeEscalation: false
-    runAsNonRoot: true
-    runAsUser: 10000
-    runAsGroup: 10000
-
-  resources:
-    requests:
-      memory: "768Mi"
-      cpu: "150m"
-    limits:
-      memory: "1536Mi"
-      cpu: "600m"
-
-  autoscaling:
-    enable: true
-    minReplica: 1
-    maxReplica: 1
-    pollingInterval: 30 # seconds
-    cooldownPeriod: 300 # seconds
-    triggers:
-      - type: cpu
-        metadata:
-          type: Utilization
-          value: "60"
+  envSecret:
+    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
 
   keyvault:
-    name: "cstar-d-weu-mil-kv"
+    name: "cstar-d-itn-mdc-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
-
-  tmpVolumeMount:
-    create: true
-    mounts:
-      - name: tmp
-        mountPath: /tmp
-      - name: logs
-        mountPath: /app/logs
-
-  # nodeSelector: {}
-
-  # tolerations: []
-
-  # affinity: {}
-
-  externalConfigMapFiles:
-    create: true
-    configMaps:
-      - name: appinsights-config
-        key: applicationinsights.json
-
-  azure:
-    workloadIdentityClientId: 20a8b595-6ff2-457a-8722-824f8cc4db64
