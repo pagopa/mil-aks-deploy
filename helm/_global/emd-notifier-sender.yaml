@@ -1,0 +1,127 @@
+microservice-chart:
+  namespace: "mdc"
+  nameOverride: ""
+  fullnameOverride: ""
+
+  livenessProbe:
+    handlerType: httpGet
+    httpGet:
+      path: /actuator/health/liveness
+      port: 8080
+    initialDelaySeconds: 120
+    failureThreshold: 15
+    periodSeconds: 10
+
+  readinessProbe:
+    handlerType: httpGet
+    httpGet:
+      path: /actuator/health/readiness
+      port: 8080
+    initialDelaySeconds: 35
+    failureThreshold: 15
+    periodSeconds: 10
+
+  deployment:
+    create: true
+    topologySpreadConstraints:
+      create: true
+      useDefaultConfiguration: true
+
+  service:
+    create: true
+    type: ClusterIP
+    ports:
+      - 8080
+
+  ingress:
+    create: true
+    path: /emdnotifiersender(/|$)(.*)
+    rewriteTarget: /$2
+    servicePort: 8080
+    # proxyBodySize: 2m
+    annotations: {
+      nginx.ingress.kubernetes.io/satisfy: "any"
+    }
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    seccompProfile:
+      type: RuntimeDefault
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 10000
+    runAsGroup: 10000
+
+  externalConfigMapFiles:
+    create: true
+    configMaps:
+      - name: appinsights-config
+        key: applicationinsights.json
+
+  externalConfigMapValues:
+    mdc-common:
+      TZ: TZ
+    rest-client:
+      EMD_CITIZEN: emd-citizen-baseurl
+      EMD_TPP: emd-tpp-baseurl
+    emd-eventhub:
+      KAFKA_BROKER: kafka_broker
+      KAFKA_ERRORS_BROKER: kafka_broker
+      KAFKA_TOPIC_MESSAGE_CORE: emd_courtesy_message_topic
+      KAFKA_MESSAGE_CORE_GROUP_IN: emd-courtesy-message-consumer-group
+      KAFKA_TOPIC_NOTIFY_ERROR: emd_notify_error_topic
+      KAFKA_NOTIFY_ERROR_GROUP_IN: emd-notify-error-consumer-group
+
+  envSecret:
+    MONGODB_URI: mongodb-connection-string
+    KAFKA_MESSAGE_CORE_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-consumer-jaas-config-emd
+    KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    KAFKA_NOTIFY_ERROR_SASL_JAAS_CONFIG: evh-emd-notify-error-emd-notify-error-consumer-jaas-config-emd
+    KAFKA_NOTIFY_ERROR_OUT_SASL_JAAS_CONFIG: evh-emd-notify-error-emd-notify-error-producer-jaas-config-emd
+
+  tmpVolumeMount:
+    create: true
+    mounts:
+      - name: tmp
+        mountPath: /tmp
+      - name: logs
+        mountPath: /app/logs
+
+  tolerations:
+    - key: "mdcOnly"
+      operator: "Equal"
+      value: "true"
+      effect: "NoSchedule"
+
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: domain
+                operator: In
+                values:
+                  - mdc
+
+  # How to deploy Canary(?)
+  # To deploy a canary version:
+  # 1. Uncomment and set nameOverride: "canary"
+  # 2. Set canaryDelivery.create: true
+  # 3. Configure the hotfix image tag in canaryDelivery.image.tag
+  # 4. Revert for remove canary deployment
+  #  nameOverride: "canary"
+  canaryDelivery:
+    create: false
+    ingress:
+      header: true
+      headerName: X-Canary
+      headerValue: canary
+      weightPercent: 10
+    image:
+      repository: ghcr.io/pagopa/emd-notifier-sender
+      tag: <HOT_FIX_IMAGE_HERE>
+    envSecret: {}
+    envConfig: {}

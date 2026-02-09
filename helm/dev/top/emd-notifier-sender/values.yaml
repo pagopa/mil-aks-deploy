@@ -1,7 +1,7 @@
 microservice-chart:
   image:
-    repository: ghcr.io/pagopa/emd-message-core
-    tag: v1.3.0
+    repository: ghcr.io/pagopa/emd-notifier-sender
+    tag: v1.2.0
     pullPolicy: Always
 
   ingress:
@@ -19,13 +19,13 @@ microservice-chart:
     enable: false
 
   envConfig:
+    LOGGING_LEVEL_IT_GOV_PAGOPA_NOTIFIER: "DEBUG"
     MONGODB_DBNAME: mdc
-    APPLICATIONINSIGHTS_ROLE_NAME: "emdmessagecore"
+    BENEFICIARY_RULE_BUILD_DELAY_DURATION: "150"
+    APPLICATIONINSIGHTS_ROLE_NAME: "emdnotifiersender"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
-    APPLICATIONINSIGHTS_SAMPLING_ENABLED: "false"
-    APPLICATIONINSIGHTS_SAMPLING_PERCENTAGE: "100"
     JAVA_TOOL_OPTIONS: >-
       -XX:InitialRAMPercentage=75.0
       -XX:MaxRAMPercentage=85.0
@@ -45,7 +45,12 @@ microservice-chart:
       -Dcom.sun.management.jmxremote.ssl=false
 
   envSecret:
-    MY_KV_SECRET: cstar-d-itn-dev-aks-apiserver-url
+    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
+    MONGODB_URI: mongodb-connection-string
+    KAFKA_MESSAGE_CORE_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-consumer-jaas-config-emd
+    KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    KAFKA_NOTIFY_ERROR_SASL_JAAS_CONFIG: evh-emd-notify-error-emd-notify-error-consumer-jaas-config-emd
+    KAFKA_NOTIFY_ERROR_OUT_SASL_JAAS_CONFIG: evh-emd-notify-error-emd-notify-error-producer-jaas-config-emd
 
   keyvault:
     name: "cstar-d-itn-mdc-kv"

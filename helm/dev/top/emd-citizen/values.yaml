@@ -45,6 +45,7 @@ microservice-chart:
   envSecret:
     MY_KV_SECRET: cstar-d-itn-dev-aks-apiserver-url
 
+
   keyvault:
     name: "cstar-d-itn-mdc-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"

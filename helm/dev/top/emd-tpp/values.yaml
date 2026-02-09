@@ -1,7 +1,7 @@
 microservice-chart:
   image:
-    repository: ghcr.io/pagopa/emd-message-core
-    tag: v1.3.0
+    repository: ghcr.io/pagopa/emd-tpp
+    tag: v1.3.1
     pullPolicy: Always
 
   ingress:
@@ -19,13 +19,13 @@ microservice-chart:
     enable: false
 
   envConfig:
+    LOGGING_LEVEL_IT_GOV_PAGOPA_TPP: "DEBUG"
     MONGODB_DBNAME: mdc
-    APPLICATIONINSIGHTS_ROLE_NAME: "emdmessagecore"
+    APPLICATIONINSIGHTS_ROLE_NAME: "emdtpp"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
-    APPLICATIONINSIGHTS_SAMPLING_ENABLED: "false"
-    APPLICATIONINSIGHTS_SAMPLING_PERCENTAGE: "100"
+    AZURE_KEYVAULT_URL: "https://cstar-d-weu-mil-kv.vault.azure.net"
     JAVA_TOOL_OPTIONS: >-
       -XX:InitialRAMPercentage=75.0
       -XX:MaxRAMPercentage=85.0
