@@ -45,7 +45,7 @@ microservice-chart:
       -Dcom.sun.management.jmxremote.ssl=false
 
   envSecret:
-    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
+    MY_KV_SECRET: cstar-d-itn-dev-aks-apiserver-url
     MONGODB_URI: mongodb-connection-string
     KAFKA_MESSAGE_CORE_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-consumer-jaas-config-emd
     KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
