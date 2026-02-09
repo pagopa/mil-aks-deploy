@@ -43,7 +43,7 @@ microservice-chart:
       -Dcom.sun.management.jmxremote.ssl=false
 
   envSecret:
-    MY_KV_SECRET: cstar-d-weu-dev01-aks-apiserver-url
+    MY_KV_SECRET: cstar-d-itn-dev-aks-apiserver-url
 
   keyvault:
     name: "cstar-d-itn-mdc-kv"
