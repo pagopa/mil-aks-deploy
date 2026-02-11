@@ -25,7 +25,7 @@ microservice-chart:
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
     APPLICATIONINSIGHTS_PREVIEW_PROFILER_ENABLED: "false"
-    AZURE_KEYVAULT_URL: "https://cstar-d-weu-mil-kv.vault.azure.net"
+    AZURE_KEYVAULT_URL: "https://cstar-d-itn-mdc-kv.vault.azure.net"
     JAVA_TOOL_OPTIONS: >-
       -XX:InitialRAMPercentage=75.0
       -XX:MaxRAMPercentage=85.0
