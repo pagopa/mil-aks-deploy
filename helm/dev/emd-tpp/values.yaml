@@ -11,7 +11,7 @@ microservice-chart:
 
   image:
     repository: ghcr.io/pagopa/emd-tpp
-    tag: v1.3.1
+    tag: v1.3.2
     pullPolicy: Always
 
   envSecret:
@@ -20,7 +20,7 @@ microservice-chart:
 
   envConfig:
     LOGGING_LEVEL_IT_GOV_PAGOPA_TPP: "DEBUG"
-    
+
     MONGODB_DBNAME: mil
     APPLICATIONINSIGHTS_ROLE_NAME: "emdtpp"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
