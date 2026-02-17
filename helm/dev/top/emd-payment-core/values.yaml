@@ -6,14 +6,6 @@ microservice-chart:
 
   ingress:
     host: "mdc.itn.internal.dev.cstar.pagopa.it"
-    create: true
-    path: /emdpaymentcore(/|$)(.*)
-    rewriteTarget: /$2
-    servicePort: 8080
-    # proxyBodySize: 2m
-    annotations: {
-      nginx.ingress.kubernetes.io/satisfy: "any"
-    }
 
   resources:
     requests:
