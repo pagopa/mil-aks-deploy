@@ -50,5 +50,5 @@ microservice-chart:
     host: "mdc.itn.internal.uat.cstar.pagopa.it"
 
   keyvault:
-    name: "cstar-u-weu-mil-kv"
+    name: "cstar-u-itn-mdc-kv"
     tenantId: "7788edaf-0346-4068-9d79-c868aed15b3d"
