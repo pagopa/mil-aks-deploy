@@ -1,7 +1,7 @@
 microservice-chart:
   image:
     repository: ghcr.io/pagopa/emd-notifier-sender
-    tag: v1.2.0
+    tag: snapshot-mmc-287-mcp-test
     pullPolicy: Always
 
   ingress:
