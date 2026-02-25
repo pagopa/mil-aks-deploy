@@ -28,7 +28,7 @@ microservice-chart:
     MY_KV_SECRET: cstar-u-itn-uat-aks-apiserver-url
 
   envConfig:
-    MONGODB_DBNAME: mdc
+    MONGODB_DBNAME: mil
     APPLICATIONINSIGHTS_ROLE_NAME: "emdmessagecore"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "INFO"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
