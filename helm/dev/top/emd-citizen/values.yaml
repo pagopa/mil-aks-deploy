@@ -1,7 +1,7 @@
 microservice-chart:
   image:
     repository: ghcr.io/pagopa/emd-citizen
-    tag: v1.0.6
+    tag: snapshot-MMC-357-update-endpoint-of-TppConnector
     pullPolicy: Always
 
   ingress:
