@@ -28,8 +28,8 @@ microservice-chart:
           value: "60"
 
   envConfig:
+    MONGODB_DBNAME: mil # TODO Change me in mdc as soon as you have deleted the WEU db
     LOGGING_LEVEL_IT_GOV_PAGOPA_TPP: "DEBUG"
-    MONGODB_DBNAME: mil
     APPLICATIONINSIGHTS_ROLE_NAME: "emdtpp"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"

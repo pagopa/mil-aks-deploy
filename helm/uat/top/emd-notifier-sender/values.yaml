@@ -31,8 +31,8 @@ microservice-chart:
     MY_KV_SECRET: cstar-u-itn-uat-aks-apiserver-url
 
   envConfig:
+    MONGODB_DBNAME: mil # TODO Change me in mdc as soon as you have deleted the WEU db
     LOGGING_LEVEL_IT_GOV_PAGOPA_NOTIFIER: "DEBUG"
-    MONGODB_DBNAME: mil
     BENEFICIARY_RULE_BUILD_DELAY_DURATION: "150"
     APPLICATIONINSIGHTS_ROLE_NAME: "emdnotifiersender"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "OFF"
