@@ -75,6 +75,7 @@ microservice-chart:
   envSecret:
     MONGODB_URI: mongodb-connection-string
     KAFKA_MESSAGE_CORE_OUT_SASL_JAAS_CONFIG: evh-emd-courtesy-message-emd-courtesy-message-producer-jaas-config-emd
+    APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
 
 
   tmpVolumeMount:

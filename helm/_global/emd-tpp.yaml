@@ -67,6 +67,7 @@ microservice-chart:
 
   envSecret:
     MONGODB_URI: mongodb-connection-string
+    APPLICATIONINSIGHTS_CONNECTION_STRING: appinsights-instrumentation-key
 
   tmpVolumeMount:
     create: true
