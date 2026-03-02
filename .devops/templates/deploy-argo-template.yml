@@ -83,11 +83,13 @@ parameters:
     # Timeout in seconds for sync operations
 
 jobs:
-  ${{ each item in parameters.applicationsList }}:
+  # ✅ CORREZIONE: Aggiunto il trattino prima di ${{ each }} in modo che venga interpretato come lista
+  - ${{ each item in parameters.applicationsList }}:
     - deployment: deploy_${{ replace(item, '-', '_') }}
       displayName: '🚀 ${{ parameters.deploymentType }} ${{ item }}'
       dependsOn: ${{ parameters.dependsOnJob }}
       condition: succeeded()
+      # 🌍 Environment correttamente posizionato
       environment: ${{ parameters.environment }}
       pool:
         name: ${{ parameters.agentPoolName }}
@@ -95,6 +97,7 @@ jobs:
         runOnce:
           deploy:
             steps:
+              # 🛠️ Checkout esplicito per scaricare i sorgenti
               - checkout: self
 
               # 📢 Display initial deployment information
