@@ -1,0 +1,8 @@
+# CODEOWNERS
+
+# groups
+.github/ @pagopa/payments-cloud-admin @pagopa/swc-emd-team-admin
+
+helm/prod @pagopa/payments-cloud-admin @pagopa/swc-emd-team-admin
+
+* @pagopa/swc-emd-team-admin
