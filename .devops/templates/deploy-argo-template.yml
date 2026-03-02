@@ -84,7 +84,6 @@ parameters:
 
 jobs:
   - ${{ each item in parameters.applicationsList }}:
-      # ✅ Spostato a 6 spazi di indentazione per accontentare yamllint
       - deployment: deploy_${{ replace(item, '-', '_') }}
         displayName: '🚀 ${{ parameters.deploymentType }} ${{ item }}'
         dependsOn: ${{ parameters.dependsOnJob }}
