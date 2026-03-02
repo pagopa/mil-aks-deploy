@@ -87,6 +87,7 @@ jobs:
     displayName: '🚀 ${{ parameters.deploymentType }}'
     dependsOn: ${{ parameters.dependsOnJob }}
     condition: succeeded()
+    environment: ${{ parameters.environment }}
     strategy:
       matrix:
         ${{ each item in parameters.applicationsList }}:
