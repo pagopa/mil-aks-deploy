@@ -1,7 +1,7 @@
 microservice-chart:
   image:
     repository: ghcr.io/pagopa/emd-tpp
-    tag: snapshot-MMC-337-add-whitelistRecipient-on-DTO
+    tag: v1.4.0
     pullPolicy: Always
 
   ingress:
