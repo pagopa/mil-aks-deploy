@@ -28,7 +28,7 @@ microservice-chart:
           value: "60"
 
   envConfig:
-    MONGODB_DBNAME: mil # TODO Change me in mdc as soon as you have deleted the WEU db
+    MONGODB_DBNAME: mdc
     APPLICATIONINSIGHTS_ROLE_NAME: "emdmessagecore"
     APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL: "INFO"
     APPLICATIONINSIGHTS_INSTRUMENTATION_MICROMETER_ENABLED: "false"
