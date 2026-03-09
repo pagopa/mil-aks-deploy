@@ -1,7 +1,7 @@
 microservice-chart:
   image:
     repository: ghcr.io/pagopa/emd-payment-core
-    tag: v1.4.0
+    tag: snapshot-MMC-382-add-amount-to-attemptDetails
     pullPolicy: Always
 
   ingress:
