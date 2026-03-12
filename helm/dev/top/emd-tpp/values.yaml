@@ -1,7 +1,7 @@
 microservice-chart:
   image:
     repository: ghcr.io/pagopa/emd-tpp
-    tag: snapshot-MMC-397-fix-put-whitelist
+    tag: v1.4.1
     pullPolicy: Always
 
   ingress:
